@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Try a payment replay in two SQLite ledgers and see the defect an AI reviewer reproduced.">
+  <title>Payment Change Review · Interactive ledger</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./recruiter.css">
+  <script type="module" src="./recruiter.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="mast">
+      <span class="brand">Payment Change Review</span>
+      <nav aria-label="Project links">
+        <a href="./walkthrough/">Agent walkthrough</a>
+        <a href="./brief.pdf">Case study</a>
+      </nav>
+    </header>
+    <main>
+      <section class="intro" aria-labelledby="title">
+        <h1 id="title">Try the payment replay that hid a booking.</h1>
+        <p>Run the same events through the current ledger and a faulty version. Edit an account, event ID, or amount to see what changes.</p>
+      </section>
+      <noscript>Enable JavaScript to run the ledger, or open the <a href="./brief.pdf">case study</a>.</noscript>
+      <div class="workspace">
+        <section class="panel" aria-labelledby="deliveries-title">
+          <h2 id="deliveries-title">Payment deliveries</h2>
+          <form id="delivery-form">
+            <fieldset id="editor" disabled>
+              <label class="sample" for="example">Example
+                <select id="example">
+                  <option value="collision">Shared event across accounts</option>
+                  <option value="retry">Retry with a changed amount</option>
+                  <option value="distinct">Two distinct events</option>
+                </select>
+              </label>
+              <table class="inputs" aria-label="Payment deliveries to run in order">
+                <thead><tr><th scope="col">Account</th><th scope="col">Event ID</th><th scope="col">Minor units</th><th scope="col"><span class="sr-only">Remove</span></th></tr></thead>
+                <tbody id="delivery-rows"></tbody>
+              </table>
+              <button id="add" class="secondary" type="button">+ Add delivery</button>
+            </fieldset>
+            <button id="run" type="submit" disabled>Run both ledgers</button>
+          </form>
+          <p class="note">Use synthetic data. Both ledgers run in your browser, with a fresh database for every run.</p>
+        </section>
+        <section class="panel" id="results-panel" aria-labelledby="results-title">
+          <h2 id="results-title">Booking results</h2>
+          <p id="status" role="status">Choose an example and run both ledgers to compare totals.</p>
+          <div id="results" hidden>
+            <div class="totals" aria-label="Booked totals in minor units">
+              <div class="total"><span>Current ledger</span><strong id="current-total"></strong></div>
+              <div class="total" id="faulty-card"><span>Faulty ledger</span><strong id="faulty-total"></strong></div>
+            </div>
+            <p class="note unit">Totals in minor units</p>
+            <table class="outcomes" aria-label="Booking results for each delivery">
+              <thead><tr><th scope="col">Delivery</th><th scope="col">Current ledger</th><th scope="col">Faulty ledger</th></tr></thead>
+              <tbody id="booking-rows"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer>
+      <a href="./walkthrough/">See how the agent found the defect</a>
+      <a href="https://github.com/Mukesh-Cse/payment-change-review">View source on GitHub</a>
+    </footer>
+  </div>
+</body>
+</html>

@@ -16,7 +16,8 @@ from urllib.request import Request, urlopen
 
 from banking_cases import RULES, Check
 from benchmark import as_json, check_candidate, evaluate
-from payment_review import LEDGER_RULE, payment_events
+from payment_review import LEDGER_RULE
+from payment_sandbox import payment_events
 
 
 PROBE_BUDGET = 2

@@ -6,11 +6,12 @@ from hashlib import sha256
 import json
 import os
 from pathlib import Path
-from tempfile import NamedTemporaryFile, TemporaryDirectory
+from tempfile import NamedTemporaryFile
 
 from banking_cases import Candidate, Check, Rule, booking_total
 from benchmark import as_json, check_candidate, evaluate
-from payment_ledger import PaymentLedger, account_event_amount, validate_payment
+from payment_ledger import account_event_amount
+from payment_sandbox import event_amount_without_account, payment_events, run_ledger
 
 
 DEFAULT_SUITE = Path(__file__).with_name("payment-regressions.json")
@@ -21,19 +22,8 @@ def trace_fingerprint(trace):
     return sha256(canonical.encode("utf-8")).hexdigest()
 
 
-def event_amount_without_account(conn, account_id, event_id):
-    """An intentionally faulty lookup for the regression walkthrough."""
-    row = conn.execute("SELECT minor_units FROM bookings WHERE event_id = ?", (event_id,)).fetchone()
-    return row[0] if row else None
-
-
 def database_total(events, *, lookup=None):
-    with TemporaryDirectory(prefix="payment-review-", dir=Path.cwd()) as directory:
-        path = Path(directory) / "payments.sqlite3"
-        ledger = PaymentLedger(path) if lookup is None else PaymentLedger(path, lookup=lookup)
-        for account, event, amount in events:
-            ledger.book(account, event, amount)
-        return sum(ledger.totals().values())
+    return run_ledger(events, lookup=lookup)["total_minor_units"]
 
 
 LEDGER_RULE = Rule(
@@ -60,18 +50,6 @@ LEDGER_RULE = Rule(
         Check("Two distinct events with equal amounts", ((('a', 'p8', 78), ('a', 'p9', 78)),), 156),
     ),
 )
-
-
-def payment_events(value):
-    if not isinstance(value, (list, tuple)) or len(value) > 12:
-        raise ValueError("Expected up to 12 synthetic payment deliveries")
-    events = []
-    for row in value:
-        if not isinstance(row, (list, tuple)) or len(row) != 3:
-            raise ValueError("Each delivery must contain an account ID, event ID and amount")
-        validate_payment(*row)
-        events.append(tuple(row))
-    return tuple(events)
 
 
 def load_suite(path):

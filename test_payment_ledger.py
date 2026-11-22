@@ -8,6 +8,7 @@ import unittest
 from payment_ledger import Booking, PaymentLedger
 from payment_load import exercise
 from payment_review import LEDGER_RULE, ci_review, load_suite, promote_probe, trace_fingerprint
+from payment_sandbox import compare_ledgers
 
 
 class PaymentLedgerTests(unittest.TestCase):
@@ -86,3 +87,16 @@ class PaymentLedgerTests(unittest.TestCase):
         trace = json.loads((root / "evidence/ledger-agent-hold.json").read_text(encoding="utf-8"))
         checks = load_suite(root / "payment-regressions.json")["checks"]
         self.assertEqual(checks[0]["evidence"]["sha256"], trace_fingerprint(trace))
+
+    def test_browser_sandbox_reports_each_booking_and_isolates_runs(self):
+        first = ["account-4", "channel-7", 1200]
+        replay = ["account-4", "channel-7", 850]
+        collision = ["account-9", "channel-7", 850]
+        result = compare_ledgers([first, replay, collision])
+        self.assertEqual(result["current"]["total_minor_units"], 2050)
+        self.assertEqual(result["faulty"]["total_minor_units"], 1200)
+        self.assertEqual([item["booked"] for item in result["current"]["bookings"]], [True, False, True])
+        self.assertEqual([item["booked"] for item in result["faulty"]["bookings"]], [True, False, False])
+        self.assertTrue(compare_ledgers([first])["current"]["bookings"][0]["booked"])
+        with self.assertRaises(ValueError):
+            compare_ledgers([])

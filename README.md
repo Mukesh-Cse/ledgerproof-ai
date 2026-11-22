@@ -4,9 +4,9 @@
 
 **Two accounts share an event ID. The replay test passes. One valid booking disappears.** Changing only the second account exposed an 850-minor-unit shortfall in a transactional SQLite ledger. A Codex-driven reviewer reproduced the failure in two probes. The approved counterexample now runs as a permanent CI test without a model.
 
-[Interactive offline demo](output/demo/index.html) · [One-page case study](output/pdf/banking-code-review-brief.pdf) · [Source review evidence](evidence/ledger-agent-hold.json) · [Pilot and operating plan](implementation-plan.md)
+**[Try the live payment sandbox](https://mukesh-cse.github.io/payment-change-review/)** · [Recorded agent walkthrough](https://mukesh-cse.github.io/payment-change-review/walkthrough/) · [One-page case study](output/pdf/banking-code-review-brief.pdf) · [Pilot and operating plan](implementation-plan.md)
 
-On GitHub, select **Download raw file** on the demo’s file page and open the downloaded HTML. Switch between **Faulty change** and **Current ledger** to run through the same evidence.
+Click **Run both ledgers** to reproduce the missing booking, or edit the sample account, event ID and amount. The browser runs both Python/SQLite implementations on the same inputs and shows which bookings each one accepted or suppressed. Each run starts with a fresh database. The first run loads a pinned Pyodide runtime. The recorded agent walkthrough is also available as a [downloadable HTML file](output/demo/index.html).
 
 | Probe | Faulty ledger | Current ledger |
 | --- | ---: | ---: |
@@ -29,6 +29,15 @@ python payment_load.py --workers 8
 ```
 
 The deliberate regression exits `1` and prints expected and observed totals. Pass `--output PATH` to `payment_review.py` or `payment_load.py` to save a fresh JSON report. Run `python build_demo.py` to rebuild the offline HTML from the committed evidence. The browser walkthrough includes the source excerpt, test inputs and a downloadable review trace.
+
+## Preview or deploy the recruiter site
+
+```text
+python build_pages.py
+python -m http.server 8000 --bind 127.0.0.1 --directory _site
+```
+
+Open `http://127.0.0.1:8000/`. The build puts the live sandbox, recorded walkthrough and PDF in `_site/`. The [Pages workflow](.github/workflows/recruiter-demo.yml) builds that directory from `main` and deploys it to GitHub Pages. A fork can enable **GitHub Actions** as its Pages source and run the same workflow. The [live sandbox](payment_sandbox.py) and the CLI share the repository’s payment implementation. User-entered payments stay in the browser. Live model evaluations use the separate, opt-in API CLI.
 
 ## See the evidence become a regression test
 
