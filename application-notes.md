@@ -2,7 +2,7 @@
 
 ## CV project entry
 
-**Payment Change Review | Agentic AI and software delivery research**
+**LedgerProof | Agentic AI and software delivery research**
 
 Built a transactional SQLite payment ledger and an AI reviewer that turns a reproduced defect into a permanent CI check after human approval. Verified 800 concurrent delivery attempts with 200 correct bookings and 600 suppressed replays. Benchmarked fixed review policies on 24 synthetic changes and designed a blinded pilot to measure agent value and reviewer effort.
 

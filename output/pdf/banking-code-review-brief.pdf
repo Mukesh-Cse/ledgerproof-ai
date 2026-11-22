@@ -1,86 +1,408 @@
-%PDF-1.4
-%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+%PDF-1.3
+%âãÏÓ
 1 0 obj
 <<
-/F1 2 0 R /F2 3 0 R /F3 4 0 R /F4 5 0 R
+/PageMode /UseNone
+/Pages 2 0 R
+/Type /Catalog
 >>
 endobj
 2 0 obj
 <<
-/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+/Count 1
+/Kids [ 3 0 R ]
+/Type /Pages
 >>
 endobj
 3 0 obj
 <<
-/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+/Contents 4 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Parent 2 0 R
+/Resources <<
+/Font 5 0 R
+/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ 11 0 R ]
 >>
 endobj
 4 0 obj
 <<
-/BaseFont /Times-Roman /Encoding /WinAnsiEncoding /Name /F3 /Subtype /Type1 /Type /Font
+/Length 4221
 >>
+stream
+1 0 0 1 0 0 cm
+BT
+/F1 12 Tf
+14.4 TL
+ET
+0.078431 0.215686 0.192157 rg
+n
+0 654.8898 595.2756 187 re
+f*
+BT
+/F2 9.5 Tf
+11.4 TL
+ET
+0.85098 0.941176 0.501961 rg
+BT
+1 0 0 1 48 793.8898 Tm
+(AGENTIC AI PORTFOLIO  \057  RETAIL BANKING) Tj
+T*
+ET
+BT
+/F3 39 Tf
+46.8 TL
+ET
+1 1 1 rg
+BT
+1 0 0 1 48 738.8898 Tm
+(LedgerProof) Tj
+T*
+ET
+q
+1 0 0 1 48 682.8898 cm
+q
+1 1 1 rg
+BT
+1 0 0 1 0 21.3 Tm
+/F1 12.7 Tf
+17 TL
+-0.144565 Tw
+(A passing replay test missed a valid booking\056 An AI reviewer reproduced the defect and) Tj
+T*
+0 Tw
+(a human can turn that evidence into a permanent CI check\056) Tj
+T*
+ET
+Q
+Q
+BT
+/F4 20 Tf
+24 TL
+ET
+0.082353 0.176471 0.168627 rg
+BT
+1 0 0 1 48 618 Tm
+(One changed field revealed a missing payment) Tj
+T*
+ET
+q
+1 0 0 1 48 558 cm
+q
+0.082353 0.176471 0.168627 rg
+BT
+1 0 0 1 0 33.7 Tm
+/F1 11.3 Tf
+15 TL
+(A replay in the same account passed\056 The agent then changed only the account on the second) Tj
+T*
+(delivery\056 Because the faulty query used the event ID alone\054 the ledger suppressed the second) Tj
+T*
+(booking\056) Tj
+T*
+ET
+Q
+Q
+0.937255 0.956863 0.870588 rg
+n
+56 472 m
+286 472 l
+290.4224 472 294 475.5776 294 480 c
+294 532 l
+294 536.4224 290.4224 540 286 540 c
+56 540 l
+51.5776 540 48 536.4224 48 532 c
+48 480 l
+48 475.5776 51.5776 472 56 472 c
+h
+f*
+BT
+/F4 19 Tf
+22.8 TL
+ET
+0.078431 0.215686 0.192157 rg
+BT
+1 0 0 1 61 511 Tm
+(2\054050 minor units) Tj
+T*
+ET
+BT
+/F1 9.3 Tf
+11.16 TL
+ET
+0.082353 0.176471 0.168627 rg
+BT
+1 0 0 1 61 489 Tm
+(Expected and confirmed on corrected ledger) Tj
+T*
+ET
+0.937255 0.956863 0.870588 rg
+n
+308 472 m
+538 472 l
+542.4224 472 546 475.5776 546 480 c
+546 532 l
+546 536.4224 542.4224 540 538 540 c
+308 540 l
+303.5776 540 300 536.4224 300 532 c
+300 480 l
+300 475.5776 303.5776 472 308 472 c
+h
+f*
+BT
+/F4 19 Tf
+22.8 TL
+ET
+0.576471 0.180392 0.137255 rg
+BT
+1 0 0 1 313 511 Tm
+(1\054200 minor units) Tj
+T*
+ET
+BT
+/F1 9.3 Tf
+11.16 TL
+ET
+0.082353 0.176471 0.168627 rg
+BT
+1 0 0 1 313 489 Tm
+(Observed on faulty ledger) Tj
+T*
+ET
+BT
+/F4 19 Tf
+22.8 TL
+ET
+0.082353 0.176471 0.168627 rg
+BT
+1 0 0 1 48 437 Tm
+(A review finding becomes part of CI) Tj
+T*
+ET
+q
+1 0 0 1 48 376 cm
+q
+0.082353 0.176471 0.168627 rg
+BT
+1 0 0 1 0 33.8 Tm
+/F1 11.2 Tf
+15 TL
+(The agent runs at most two extra probes on a disposable SQLite ledger and cites the results\056 A) Tj
+T*
+(reviewer can promote a failing probe after the corrected ledger passes\056 The evidence is versioned) Tj
+T*
+(with the regression\054 and subsequent CI runs execute it without a model\056) Tj
+T*
+ET
+Q
+Q
+0.8 0.839216 0.788235 RG
+n
+48 350 m
+547.2756 350 l
+S
+BT
+/F4 16.5 Tf
+19.8 TL
+ET
+0.082353 0.176471 0.168627 rg
+BT
+1 0 0 1 48 322 Tm
+(Concurrent retry run) Tj
+T*
+ET
+BT
+/F2 10.5 Tf
+12.6 TL
+ET
+0.078431 0.215686 0.192157 rg
+BT
+1 0 0 1 48 300 Tm
+(800 deliveries   \057   8 workers   \057   200 bookings   \057   600 replays suppressed) Tj
+T*
+ET
+q
+1 0 0 1 48 254 cm
+q
+0.082353 0.176471 0.168627 rg
+BT
+1 0 0 1 0 19.3 Tm
+/F1 10.7 Tf
+15 TL
+(Account totals matched in the local synthetic run\056 Automated tests also cover recovery from a failed write\054) Tj
+T*
+(persistence across reopen\054 and the known cross\055account regression\056) Tj
+T*
+ET
+Q
+Q
+BT
+/F4 16.5 Tf
+19.8 TL
+ET
+0.082353 0.176471 0.168627 rg
+BT
+1 0 0 1 48 230 Tm
+(What a product\055team pilot would measure) Tj
+T*
+ET
+q
+1 0 0 1 48 169 cm
+q
+0.082353 0.176471 0.168627 rg
+BT
+1 0 0 1 0 34.3 Tm
+/F1 10.7 Tf
+15 TL
+(Trial the review workflow on fresh\054 blinded changes\056 Measure material defects confirmed\054 unnecessary) Tj
+T*
+(holds\054 review minutes\054 and whether engineers can apply a rule to a new case\056 Run independent CI) Tj
+T*
+(checks in parallel and cap optional model runs\056) Tj
+T*
+ET
+Q
+Q
+BT
+/F2 10.3 Tf
+12.36 TL
+ET
+0.082353 0.176471 0.168627 rg
+BT
+1 0 0 1 48 144 Tm
+(Evidence scope) Tj
+T*
+ET
+q
+1 0 0 1 48 106 cm
+q
+0.27451 0.376471 0.352941 rg
+BT
+1 0 0 1 0 16.2 Tm
+/F1 9.8 Tf
+13 TL
+(The ledger and CI checks have been verified\056 Codex drove informed walkthroughs on synthetic data\056) Tj
+T*
+(Blinded model accuracy and production throughput remain to be evaluated\056) Tj
+T*
+ET
+Q
+Q
+0.8 0.839216 0.788235 RG
+n
+48 74 m
+547.2756 74 l
+S
+BT
+/F2 8.9 Tf
+10.68 TL
+ET
+0.27451 0.376471 0.352941 rg
+BT
+1 0 0 1 48 53 Tm
+(LIVE DEMO  \057  LEDGERPROOF\055AI\056VERCEL\056APP) Tj
+T*
+ET
+
+endstream
 endobj
 5 0 obj
 <<
-/BaseFont /Times-Bold /Encoding /WinAnsiEncoding /Name /F4 /Subtype /Type1 /Type /Font
+/F1 6 0 R
+/F2 7 0 R
+/F3 8 0 R
+/F4 9 0 R
 >>
 endobj
 6 0 obj
 <<
-/Contents 10 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 9 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 7 0 obj
 <<
-/PageMode /UseNone /Pages 9 0 R /Type /Catalog
+/BaseFont /Helvetica-Bold
+/Encoding /WinAnsiEncoding
+/Name /F2
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 8 0 obj
 <<
-/Author (anonymous) /CreationDate (D:20261122145355+01'00') /Creator (ReportLab PDF Library - www.reportlab.com) /Keywords () /ModDate (D:20261122145355+01'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
-  /Subject (Agentic AI research portfolio for retail-banking software delivery) /Title (Payment Change Review) /Trapped /False
+/BaseFont /Times-Roman
+/Encoding /WinAnsiEncoding
+/Name /F3
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 9 0 obj
 <<
-/Count 1 /Kids [ 6 0 R ] /Type /Pages
+/BaseFont /Times-Bold
+/Encoding /WinAnsiEncoding
+/Name /F4
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 10 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 2051
+/Author (anonymous)
+/CreationDate (D\07220261122145355\05301\04700\047)
+/Creator (ReportLab PDF Library \055 www\056reportlab\056com)
+/Keywords ()
+/ModDate (D\07220261122145355\05301\04700\047)
+/Producer (ReportLab PDF Library \055 www\056reportlab\056com)
+/Subject (Agentic AI research portfolio for retail\055banking software delivery)
+/Title (LedgerProof)
+/Trapped /False
 >>
-stream
-Gau0C9lo&I&A@C2lnQa51^SWrkVu1(;o_WQ9m_UdaC7jV$:.kH^[GBWPZ0_:UZlk_[K$un?1*(:Fqp+"T>:HNCSLPr](d+=+DA<[+S$^[?IO9^nbb5%_LO`\`(?8V(X0*UWI:-j\=1?uQY!L^i`YW)1eoI?n5.NtmDPG-2"P0l1H=%2@NS[a=VLuf9ZDN89*.#./&;d!PYjILSag8cD_=9!DjH;3\m3UKgUlRfgZug1d07qRI!N94VY?E9^FsIgrC4uFB_dtM=T9Ou1Njid?8f=6>LJSFL"X;s(V-SHe'Z]L2@k]5e5N?T8%-0.Nc$23E&[CB5'Ur$-P:SH>BWU3;O`i6,C8O"5nq9EZF%SddRG-R2@i@<VNO%+Pj,,!NDTjNHBM92d(S"k39&=s_tdt_FK4FQXY0Gi8%Z1'6EO5DO_fn0Eo6_T[-h__:laG9Dt.Hl4+`S]27]HekqlX^</X+%#n+o-.Y%)N'(?W#2Sft3T3k&-(mBe1%`+AdM,H#T!,k:%3oNZgEdc[jf]P@5Zmo'Un-^[Jfb`d0kA4rS+K$?<j!"<7k1uphA./Z)/2k9gk#VNc6gDk7VU<IgOj%n&,8Z<!.QgnoJUHDBi(128?T6N\?5h/U_1p,*!JWOeWlc^>mQ>g!EnMCC&$9ALFZ]HVisGBj5S:PWS](hsQ#>+$rXZPb!8aU1Cg(DiP:rGb/9uf82[`Ora!a/)BOiScrA_u:78Haq;(AN9Ls3!$M4"*F,QKK9`Jd#k02>BSG*>3V-G54'GFDTi]<T*h8#QDijNj?en=lAiJMY5+#'%:gf)d>)?jDs&N,H[?*7#175$:ZN`JH"I'edM>idW.]8#1Y<`Bdl\.AhR\K6rSqWGfr)]TeZ]Z5*qU(*mNI5@MFSXIK%W"pN.3D[HPhX0SiZM6L\upW,XKjSu.QKmko[(l-cE?lY"*J8penAWetf5[HGNh's:^'*eNjU'$Lj3!;T54?sb[ro'm3#^b8I:pd:Nq>Mk!29,T55fR;G1I%B9I(ES\1W*W4mZ@pT_Z.B4A3V<'\+`A":Cb%2NaErRR\%9mQr06^?8tJ>jK^4:*Ucl$[5(RV(6Z"U@\4:U&.(R&.'k.l'LtK8d(m).%&&I+)U5;:C/WA`M\ab+HUNRP81I6<d72toMS=MP0"\fQ=mfd<XG0$dO?A0H[b%d4HfKPYPI8DAM(G!Ym0r?7jJp*([d^SES7EQdfnUne#Qeg78ErJq[q3#iU3L'O`RCfGch)`(]'PlZI9ZBGnfE@H*Uu#CGMK;WPl6m*@arN8<j9b?1X8&;IDYWpBX#XPG#C7\n[>01H_Me'kVPAn.\RE>.Ta4'HR+81;B>T@Jq$?`6%M7F&mfUEB!Nf6(OO<o3V9]l@+s:m1>;$e&W%S&>`;$W)ZQ)\?`r@VUP<rL^ES]`j)6V5)SGuVn/<5Dd%`\Yai[F34,c2=f_-hdbDONH_58`(:)mBhG8fYSiF4DAk:<=D\0j@cg!:\@5gb.T34Eb@mHL3O)^_-?/-fbCC1D3[Dq%$/G5U"V/NNkrHT-rs#=>"!_YspE7-G3[PK,pm[?r,LGFamSD9>J'iO['3<\%n\<h4gh87lL,96:f8AQpASXq\"d0o]5!hHG=r.b7P08,3tBYa`=&i1F;&%&C3'h#M7$X`]LBd&7qPPjN@La]_c"R?!lc.o=j;iNWR[COiISLU'e$@hp5ufjN$fTENcg%a,;6k0bZ=meVYt/jNT"^"E4e6aU9N6)S9oWQL'iglUB7^_S(t"gJF+6_J:qL-qqpkHugp.#Qg<1!602_7c%_qI?]?Bb\I$31(4dN-VVAj+)bk`7*-G;24sCE?t;VKgOBK03b7$<a(2cp^/\S9LXk#6C([+:.&5g4a--lpCD&o8e)S=aA.&'%E3=$gF!n>e$h*i9kfTAUoZq]f-U/8\/dP8g@<tPhXk&a[H-W)BW1@"(74k8HCdUHEfSs^blq[MmJF[PfiRC@jOFaX(:D-+Edi4X[9WVaV[rCFmd'?/Qh_)aq]Plr6IkpaanP/(]=O`kNutPA2tNg>C%=2r4$>V~>endstream
+endobj
+11 0 obj
+<<
+/Type /Annot
+/Subtype /Link
+/P 3 0 R
+/Rect [ 48 49 290 62 ]
+/H /I
+/Border [ 0 0 0 ]
+/A <<
+/S /URI
+/URI (https\072\057\057ledgerproof\055ai\056vercel\056app\057)
+>>
+>>
 endobj
 xref
-0 11
+0 12
 0000000000 65535 f 
-0000000073 00000 n 
-0000000134 00000 n 
-0000000241 00000 n 
-0000000353 00000 n 
-0000000462 00000 n 
-0000000570 00000 n 
-0000000774 00000 n 
-0000000842 00000 n 
-0000001206 00000 n 
-0000001265 00000 n 
+0000000015 00000 n 
+0000000083 00000 n 
+0000000142 00000 n 
+0000000360 00000 n 
+0000004633 00000 n 
+0000004694 00000 n 
+0000004801 00000 n 
+0000004913 00000 n 
+0000005022 00000 n 
+0000005130 00000 n 
+0000005527 00000 n 
 trailer
 <<
-/ID 
-[<e1f8e9078911e59709a824173c514023><e1f8e9078911e59709a824173c514023>]
-% ReportLab generated PDF document -- digest (http://www.reportlab.com)
-
-/Info 8 0 R
-/Root 7 0 R
-/Size 11
+/Size 12
+/Root 1 0 R
+/Info 10 0 R
+/ID [ <e1f8e9078911e59709a824173c514023> <e1f8e9078911e59709a824173c514023> ]
 >>
 startxref
-3408
+5713
 %%EOF

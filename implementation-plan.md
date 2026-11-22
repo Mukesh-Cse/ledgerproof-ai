@@ -1,4 +1,4 @@
-# Payment Change Review implementation plan
+# LedgerProof implementation plan
 
 ## One business rule, from change to evidence
 

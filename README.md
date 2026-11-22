@@ -1,10 +1,10 @@
-# Payment Change Review
+# LedgerProof
 
-[![Payment review CI](https://github.com/Mukesh-Cse/payment-change-review/actions/workflows/payment-review.yml/badge.svg?branch=main)](https://github.com/Mukesh-Cse/payment-change-review/actions/workflows/payment-review.yml)
+[![Payment review CI](https://github.com/Mukesh-Cse/ledgerproof-ai/actions/workflows/payment-review.yml/badge.svg?branch=main)](https://github.com/Mukesh-Cse/ledgerproof-ai/actions/workflows/payment-review.yml)
 
 **Two accounts share an event ID. The replay test passes. One valid booking disappears.** Changing only the second account exposed an 850-minor-unit shortfall in a transactional SQLite ledger. A Codex-driven reviewer reproduced the failure in two probes. The approved counterexample now runs as a permanent CI test without a model.
 
-**[Try the live payment sandbox](https://mukesh-cse.github.io/payment-change-review/)** · [Recorded agent walkthrough](https://mukesh-cse.github.io/payment-change-review/walkthrough/) · [One-page case study](output/pdf/banking-code-review-brief.pdf) · [Pilot and operating plan](implementation-plan.md)
+**[Try the live payment sandbox](https://ledgerproof-ai.vercel.app/)** · [Recorded agent walkthrough](https://ledgerproof-ai.vercel.app/walkthrough/) · [One-page case study](output/pdf/banking-code-review-brief.pdf) · [Pilot and operating plan](implementation-plan.md)
 
 Click **Run both ledgers** to reproduce the missing booking, or edit the sample account, event ID and amount. The browser runs both Python/SQLite implementations on the same inputs and shows which bookings each one accepted or suppressed. Each run starts with a fresh database. The first run loads a pinned Pyodide runtime. The recorded agent walkthrough is also available as a [downloadable HTML file](output/demo/index.html).
 
@@ -20,8 +20,8 @@ Both runs use synthetic payments. Amounts are in minor units. The agent received
 Clone the repository and use Python 3.10 or later. The standard-library path runs offline in a writable directory with no API key.
 
 ```text
-git clone https://github.com/Mukesh-Cse/payment-change-review.git
-cd payment-change-review
+git clone https://github.com/Mukesh-Cse/ledgerproof-ai.git
+cd ledgerproof-ai
 python -m unittest -v
 python payment_review.py
 python payment_review.py --candidate global-id-regression
