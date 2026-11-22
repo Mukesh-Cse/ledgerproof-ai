@@ -1,0 +1,16 @@
+{
+  "accounts": 8,
+  "workers": 8,
+  "attempted_deliveries": 800,
+  "booked_events": 200,
+  "suppressed_replays": 600,
+  "expected_events": 200,
+  "account_totals_match": true,
+  "p95_attempt_ms": 143.71,
+  "deliveries_per_second": 213.9,
+  "environment": {
+    "python": "3.12.7",
+    "sqlite": "3.45.3",
+    "os": "Windows"
+  }
+}

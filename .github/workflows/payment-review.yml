@@ -1,0 +1,39 @@
+name: Payment review
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Check payment behavior and write evidence
+        run: python payment_review.py --output payment-ci.json
+      - name: Run regression tests
+        if: ${{ !cancelled() }}
+        run: python -m unittest -v
+      - name: Verify the committed offline demo
+        run: |
+          python build_demo.py
+          git diff --exit-code -- output/demo/index.html
+      - name: Publish payment review evidence
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: payment-review
+          path: payment-ci.json
+          retention-days: 7
+          if-no-files-found: error

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "name": "Allow the same event ID across accounts",
+      "events": [
+        [
+          "account-4",
+          "channel-7",
+          1200
+        ],
+        [
+          "account-9",
+          "channel-7",
+          850
+        ]
+      ],
+      "expected_minor_units": 2050,
+      "evidence": {
+        "case": "payment-ledger/global-id-regression",
+        "probe": "probe-2",
+        "sha256": "48c9550f2fc4a0b66171772cbe1423332498b6339706bd23cd0b9db5b5afefb6"
+      }
+    }
+  ]
+}

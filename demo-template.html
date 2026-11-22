@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Payment Change Review</title>
+  <style>
+    :root { color-scheme: light; --page: #f3f5ef; --paper: #fffefa; --ink: #182e29; --muted: #466057; --line: #d5ded4; --green: #183d32; --wash: #edf4e8; --red: #8b3128; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.5 system-ui, sans-serif; }
+    button, a { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, a:focus-visible { outline: 3px solid #1b7764; outline-offset: 3px; }
+    .wrap { width: min(1040px, calc(100% - 48px)); margin: auto; }
+    .mast { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 19px 0; border-bottom: 1px solid var(--line); }
+    .brand { font-size: .95rem; font-weight: 750; }
+    .eyebrow { color: var(--muted); font-size: .76rem; font-weight: 700; letter-spacing: .05em; }
+    .hero { padding: 30px 0 27px; }
+    h1 { font: 500 clamp(2.4rem, 5.6vw, 4.5rem)/1.03 Georgia, serif; letter-spacing: -.055em; max-width: 770px; margin: 0 0 10px; text-wrap: balance; }
+    .hero p { max-width: 680px; color: var(--muted); margin: 0; }
+    .console { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgb(25 55 44 / .05); }
+    .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 20px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+    .toolbar h2 { font-size: 1rem; margin: 0; }
+    .switch { display: flex; gap: 3px; background: #ecf0e9; border-radius: 9px; padding: 3px; }
+    .switch button, .steps button, .actions button, .download, summary { transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease; }
+    .switch button { color: var(--muted); border: 1px solid transparent; border-radius: 7px; padding: 6px 12px; min-height: 36px; background: transparent; font-size: .86rem; font-weight: 650; }
+    .switch button:hover { background: #e0e9dd; }
+    .switch button[aria-pressed=true] { background: var(--green); color: white; }
+    .run { display: grid; grid-template-columns: 200px minmax(0, 1fr); }
+    .steps { border-right: 1px solid var(--line); padding: 16px 10px; background: #f9faf5; }
+    .steps button { display: flex; align-items: center; gap: 9px; width: 100%; min-height: 44px; border: 1px solid transparent; background: transparent; color: var(--muted); text-align: left; border-radius: 8px; padding: 7px 10px; margin-bottom: 3px; font-size: .9rem; }
+    .steps button::before { content: ''; flex: 0 0 7px; width: 7px; height: 7px; border: 1px solid #789388; border-radius: 50%; }
+    .steps button:hover { background: #eff3e9; }
+    .steps button[aria-current=step] { background: var(--wash); color: var(--ink); border-color: #ceddcb; font-weight: 700; }
+    .steps button[aria-current=step]::before { background: var(--green); border-color: var(--green); }
+    .panel { min-width: 0; padding: 18px 22px 0; }
+    .stage { min-height: 228px; padding-bottom: 16px; }
+    .stage h3 { font-size: clamp(1.17rem, 2.5vw, 1.4rem); margin: 0 0 6px; line-height: 1.2; }
+    .stage p { color: var(--muted); margin: 0 0 10px; max-width: 65ch; }
+    .stage-header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px 10px; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; border-radius: 50px; padding: 3px 9px; font-size: .78rem; font-weight: 700; line-height: 1.5; background: var(--wash); color: var(--green); }
+    .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .badge.fail { color: var(--red); background: #f8e8e4; }
+    pre { background: #f0f3ed; border: 1px solid var(--line); border-radius: 9px; padding: 12px; white-space: pre-wrap; overflow-wrap: anywhere; font: .81rem/1.6 ui-monospace, monospace; }
+    .values { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+    .value { padding: 9px 13px 10px; border: 1px solid var(--line); border-radius: 9px; background: #f8faf5; }
+    .value span { display: block; color: inherit; font-size: .81rem; }
+    .value b { display: block; margin-top: 1px; font: 700 clamp(1.65rem, 3.5vw, 2.35rem)/1.1 system-ui, sans-serif; font-variant-numeric: tabular-nums; letter-spacing: -.04em; }
+    .value.fail { color: var(--red); background: #fcf0ec; border-color: #ecd0c9; }
+    .value.pass { color: var(--green); background: var(--wash); border-color: #ceddcb; }
+    details { margin-top: 7px; color: var(--muted); font-size: .86rem; }
+    summary { width: fit-content; padding: 5px 7px; margin-left: -7px; border-radius: 6px; cursor: pointer; font-weight: 650; }
+    summary:hover { background: var(--wash); }
+    summary:focus-visible { outline: 3px solid #1b7764; outline-offset: 2px; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: .82rem; }
+    th, td { padding: 6px 5px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+    th:last-child, td:last-child { text-align: right; }
+    #question { background: #f0f4ed; border-radius: 8px; padding: 8px 10px; }
+    .download, .actions button { min-height: 38px; color: var(--green); background: var(--paper); border: 1px solid var(--line); padding: 6px 11px; border-radius: 7px; font-weight: 700; font-size: .85rem; }
+    .download:hover, .actions button:hover { background: var(--wash); }
+    .actions { border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 8px; padding: 8px 0; }
+    .actions button[aria-disabled=true] { color: #67766e; background: #f2f4ef; cursor: default; }
+    .summary { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+    .card { border-radius: 12px; padding: 13px 16px; background: var(--paper); border: 1px solid var(--line); }
+    .card h2 { font-size: .95rem; margin: 0 0 3px; }
+    .card p { margin: 0; font-size: .89rem; color: var(--muted); }
+    footer { margin: 15px 0; padding: 0 0 12px; color: var(--muted); font-size: .8rem; }
+    .screen-reader { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    [hidden] { display: none !important; }
+    @media (max-width: 680px) {
+      .wrap { width: calc(100% - 30px); }
+      .mast { align-items: start; padding: 13px 0; }
+      .mast .eyebrow { text-align: right; }
+      .hero { padding: 23px 0 19px; }
+      .toolbar { padding: 10px 12px; }
+      .run, .summary { grid-template-columns: 1fr; }
+      .steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-right: 0; border-bottom: 1px solid var(--line); padding: 6px; gap: 2px; }
+      .steps button { margin: 0; padding: 6px 7px; gap: 6px; }
+      .switch button, .actions button { min-height: 42px; }
+      .panel { padding: 13px 12px 0; }
+      .stage { min-height: 210px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="mast"><span class="brand">Payment Change Review</span><span class="eyebrow">Agentic AI · Retail banking</span></header>
+    <main>
+      <section class="hero">
+        <h1>A passing replay test missed a valid booking.</h1>
+        <p>Compare how an AI reviewer tests the faulty and corrected ledgers, then see how the failure becomes a permanent CI check.</p>
+      </section>
+      <section class="console" aria-labelledby="console-title">
+        <div class="toolbar">
+          <h2 id="console-title">Review walkthrough</h2>
+          <div class="switch" role="group" aria-label="Implementation under review">
+            <button type="button" data-case="hold" aria-pressed="true">Faulty change</button>
+            <button type="button" data-case="ready" aria-pressed="false">Current ledger</button>
+          </div>
+        </div>
+        <div class="run">
+          <nav class="steps" id="steps" aria-label="Review steps">
+            <button type="button" data-step="0" aria-controls="panel">Inspect query</button>
+            <button type="button" data-step="1" aria-controls="panel">Replay delivery</button>
+            <button type="button" data-step="2" aria-controls="panel" aria-current="step">Change account</button>
+            <button type="button" data-step="3" aria-controls="panel">Review decision</button>
+          </nav>
+          <section class="panel" id="panel" aria-labelledby="heading">
+            <div class="stage" id="stage">
+              <div class="stage-header">
+                <h3 id="heading"></h3>
+                <span class="badge" id="outcome" hidden></span>
+              </div>
+              <p id="detail"></p>
+              <div class="values" id="amounts" hidden>
+                <div class="value"><span>Expected · minor units</span><b id="expected"></b></div>
+                <div class="value" id="actual-box"><span>Observed · minor units</span><b id="actual"></b></div>
+              </div>
+              <details id="inputs" hidden>
+                <summary>Show test inputs</summary>
+                <table aria-label="Test deliveries">
+                  <thead><tr><th scope="col">Account</th><th scope="col">Event ID</th><th scope="col">Minor units</th></tr></thead>
+                  <tbody id="input-rows"></tbody>
+                </table>
+              </details>
+              <pre id="source" hidden></pre>
+              <p id="question" hidden></p>
+              <button id="download" class="download" type="button" hidden>Download review evidence</button>
+            </div>
+            <div class="actions" role="group" aria-label="Move between review steps">
+              <button id="previous" type="button">← Previous</button>
+              <button id="next" type="button">Next →</button>
+            </div>
+          </section>
+        </div>
+        <div id="announcement" class="screen-reader" role="status"></div>
+        <noscript>The interactive evidence view requires JavaScript.</noscript>
+      </section>
+      <div class="summary">
+        <section class="card" aria-labelledby="learning-title">
+          <h2 id="learning-title">Permanent regression check</h2>
+          <p id="regression"></p>
+        </section>
+        <section class="card" aria-labelledby="load-title">
+          <h2 id="load-title">Local concurrency run</h2>
+          <p id="load-detail"></p>
+        </section>
+      </div>
+    </main>
+    <footer>Recorded Codex reviews used synthetic payments and known test cases. Live model accuracy and production throughput require separate evaluation.</footer>
+  </div>
+  <script type="application/json" id="evidence">__REVIEW_EVIDENCE__</script>
+  <script>
+    const data = JSON.parse(document.querySelector('#evidence').textContent);
+    const el = id => document.getElementById(id);
+    const format = new Intl.NumberFormat('en');
+    const controls = Array.from(document.querySelectorAll('[data-step]'));
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    const headings = ['Read the replay lookup', 'Retry the same account and event ID', 'Change the second account'];
+    let selection = 'hold';
+    let step = 2;
+    let animation;
+
+    function render(update = false) {
+      const trace = data[selection];
+      const result = trace.actions[step].result;
+      const final = step === 3;
+      const probe = step === 1 || step === 2;
+      const heading = final ? (selection === 'hold' ? 'Hold for correction' : 'Ready for human review') : headings[step];
+      el('heading').textContent = heading;
+      el('detail').textContent = final ? trace.decision.rationale : (probe ? result.check : trace.ticket.requirement);
+      el('amounts').hidden = !probe;
+      el('outcome').hidden = !probe;
+      el('inputs').hidden = !probe;
+      if (!probe) el('inputs').open = false;
+      el('source').hidden = step !== 0;
+      el('question').hidden = !final;
+      el('download').hidden = !final;
+      let announcement = heading;
+      if (probe) {
+        el('expected').textContent = format.format(result.expected);
+        el('actual').textContent = format.format(result.actual);
+        el('actual-box').className = result.passed ? 'value pass' : 'value fail';
+        el('outcome').textContent = result.passed ? 'Test passed' : 'Test failed';
+        el('outcome').classList.toggle('fail', !result.passed);
+        announcement += '. ' + el('outcome').textContent + '. Expected ' + el('expected').textContent + ', observed ' + el('actual').textContent + ' minor units.';
+        const rows = result.inputs[0].map(([account, eventId, units]) => {
+          const row = document.createElement('tr');
+          for (const value of [account, eventId, format.format(units)]) row.insertCell().textContent = value;
+          return row;
+        });
+        el('input-rows').replaceChildren(...rows);
+      }
+      if (step === 0) el('source').textContent = result.python;
+      if (final) el('question').textContent = trace.decision.stakeholder_question;
+      document.querySelectorAll('[data-case]').forEach(button => button.setAttribute('aria-pressed', button.dataset.case === selection));
+      controls.forEach((button, index) => {
+        if (index === step) button.setAttribute('aria-current', 'step');
+        else button.removeAttribute('aria-current');
+      });
+      el('previous').setAttribute('aria-disabled', step === 0);
+      el('next').setAttribute('aria-disabled', step === controls.length - 1);
+      if (update) {
+        el('announcement').textContent = (selection === 'hold' ? 'Faulty change. ' : 'Current ledger. ') + announcement;
+        animation?.cancel();
+        if (!reducedMotion.matches) {
+          animation = el('stage').animate([{opacity: 0.65}, {opacity: 1}], {duration: 140, easing: 'ease-out'});
+        }
+      }
+    }
+
+    function goTo(index) {
+      if (index < 0 || index >= controls.length || index === step) return;
+      step = index;
+      render(true);
+    }
+
+    document.querySelectorAll('[data-case]').forEach(button => button.addEventListener('click', () => {
+      if (button.dataset.case === selection) return;
+      selection = button.dataset.case;
+      render(true);
+    }));
+    controls.forEach((button, index) => button.addEventListener('click', () => goTo(index)));
+    el('previous').addEventListener('click', () => goTo(step - 1));
+    el('next').addEventListener('click', () => goTo(step + 1));
+    el('steps').addEventListener('keydown', event => {
+      const index = controls.indexOf(event.target);
+      if (index < 0) return;
+      const destinations = {
+        ArrowLeft: index - 1, ArrowUp: index - 1, ArrowRight: index + 1, ArrowDown: index + 1,
+        Home: 0, End: controls.length - 1
+      };
+      if (!(event.key in destinations)) return;
+      event.preventDefault();
+      const target = Math.min(controls.length - 1, Math.max(0, destinations[event.key]));
+      goTo(target);
+      controls[target].focus();
+    });
+    el('download').addEventListener('click', () => {
+      const trace = data[selection];
+      const url = URL.createObjectURL(new Blob([JSON.stringify(trace, null, 2)], {type: 'application/json'}));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = selection === 'hold' ? 'ledger-review-hold.json' : 'ledger-review-ready.json';
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    });
+    const promoted = data.ci.promoted_checks[0];
+    el('regression').textContent = 'The recorded counterexample now runs without a model. CI expects ' + format.format(promoted.expected) + ' minor units and holds the faulty change.';
+    el('load-detail').textContent = format.format(data.load.attempted_deliveries) + ' deliveries, ' + format.format(data.load.booked_events) + ' bookings and ' + format.format(data.load.suppressed_replays) + ' replays suppressed across ' + data.load.workers + ' workers. ' + (data.load.account_totals_match ? 'Every account total matched.' : 'At least one account total differed.');
+    render();
+  </script>
+</body>
+</html>

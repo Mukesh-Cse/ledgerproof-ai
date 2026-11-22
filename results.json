@@ -1,0 +1,4423 @@
+{
+  "schema_version": 1,
+  "candidate_source": "handwritten synthetic implementations",
+  "summary": {
+    "cases": 24,
+    "defective": 18,
+    "conforming": 6,
+    "workflows": {
+      "smoke": {
+        "defects_caught": 1,
+        "defects_escaped": 17,
+        "conforming_held": 0,
+        "checks": 24
+      },
+      "routine": {
+        "defects_caught": 3,
+        "defects_escaped": 15,
+        "conforming_held": 0,
+        "checks": 72
+      },
+      "focused": {
+        "defects_caught": 12,
+        "defects_escaped": 6,
+        "conforming_held": 0,
+        "checks": 72
+      }
+    }
+  },
+  "matched_comparison": {
+    "focused_only": [
+      "fee-rounding/half-even",
+      "fee-rounding/lost-sign",
+      "payment-retry/no-deduplication",
+      "payment-retry/amount-key",
+      "affordability/strict-threshold",
+      "statement-window/start-ignored",
+      "statement-window/end-inclusive",
+      "partial-refund/previous-ignored",
+      "partial-refund/negative-allowed",
+      "settlement-day/holiday-ignored"
+    ],
+    "routine_only": [
+      "partial-refund/one-cent-short"
+    ],
+    "both": [
+      "affordability/ignored-obligations",
+      "settlement-day/no-weekend"
+    ],
+    "neither": [
+      "fee-rounding/truncated-amount",
+      "payment-retry/global-key",
+      "affordability/negative-costs",
+      "statement-window/tie-order",
+      "settlement-day/single-holiday"
+    ]
+  },
+  "per_rule": {
+    "fee-rounding": {
+      "cases": 4,
+      "defective": 3,
+      "conforming": 1,
+      "workflows": {
+        "smoke": {
+          "defects_caught": 0,
+          "defects_escaped": 3,
+          "conforming_held": 0,
+          "checks": 4
+        },
+        "routine": {
+          "defects_caught": 0,
+          "defects_escaped": 3,
+          "conforming_held": 0,
+          "checks": 12
+        },
+        "focused": {
+          "defects_caught": 2,
+          "defects_escaped": 1,
+          "conforming_held": 0,
+          "checks": 12
+        }
+      }
+    },
+    "payment-retry": {
+      "cases": 4,
+      "defective": 3,
+      "conforming": 1,
+      "workflows": {
+        "smoke": {
+          "defects_caught": 0,
+          "defects_escaped": 3,
+          "conforming_held": 0,
+          "checks": 4
+        },
+        "routine": {
+          "defects_caught": 0,
+          "defects_escaped": 3,
+          "conforming_held": 0,
+          "checks": 12
+        },
+        "focused": {
+          "defects_caught": 2,
+          "defects_escaped": 1,
+          "conforming_held": 0,
+          "checks": 12
+        }
+      }
+    },
+    "affordability": {
+      "cases": 4,
+      "defective": 3,
+      "conforming": 1,
+      "workflows": {
+        "smoke": {
+          "defects_caught": 0,
+          "defects_escaped": 3,
+          "conforming_held": 0,
+          "checks": 4
+        },
+        "routine": {
+          "defects_caught": 1,
+          "defects_escaped": 2,
+          "conforming_held": 0,
+          "checks": 12
+        },
+        "focused": {
+          "defects_caught": 2,
+          "defects_escaped": 1,
+          "conforming_held": 0,
+          "checks": 12
+        }
+      }
+    },
+    "statement-window": {
+      "cases": 4,
+      "defective": 3,
+      "conforming": 1,
+      "workflows": {
+        "smoke": {
+          "defects_caught": 0,
+          "defects_escaped": 3,
+          "conforming_held": 0,
+          "checks": 4
+        },
+        "routine": {
+          "defects_caught": 0,
+          "defects_escaped": 3,
+          "conforming_held": 0,
+          "checks": 12
+        },
+        "focused": {
+          "defects_caught": 2,
+          "defects_escaped": 1,
+          "conforming_held": 0,
+          "checks": 12
+        }
+      }
+    },
+    "partial-refund": {
+      "cases": 4,
+      "defective": 3,
+      "conforming": 1,
+      "workflows": {
+        "smoke": {
+          "defects_caught": 0,
+          "defects_escaped": 3,
+          "conforming_held": 0,
+          "checks": 4
+        },
+        "routine": {
+          "defects_caught": 1,
+          "defects_escaped": 2,
+          "conforming_held": 0,
+          "checks": 12
+        },
+        "focused": {
+          "defects_caught": 2,
+          "defects_escaped": 1,
+          "conforming_held": 0,
+          "checks": 12
+        }
+      }
+    },
+    "settlement-day": {
+      "cases": 4,
+      "defective": 3,
+      "conforming": 1,
+      "workflows": {
+        "smoke": {
+          "defects_caught": 1,
+          "defects_escaped": 2,
+          "conforming_held": 0,
+          "checks": 4
+        },
+        "routine": {
+          "defects_caught": 1,
+          "defects_escaped": 2,
+          "conforming_held": 0,
+          "checks": 12
+        },
+        "focused": {
+          "defects_caught": 2,
+          "defects_escaped": 1,
+          "conforming_held": 0,
+          "checks": 12
+        }
+      }
+    }
+  },
+  "additional_defects_caught_after_excluding_rule": {
+    "fee-rounding": 7,
+    "payment-retry": 7,
+    "affordability": 8,
+    "statement-window": 7,
+    "partial-refund": 8,
+    "settlement-day": 8
+  },
+  "cases": [
+    {
+      "id": "fee-rounding/reference",
+      "rule": "fee-rounding",
+      "requirement": "Multiply the signed amount by the rate and round half away from zero to cents.",
+      "candidate": "reference",
+      "description": "Signed decimal arithmetic with half-up rounding",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Whole amount",
+              "inputs": [
+                "100",
+                "0.02"
+              ],
+              "expected": "2.00",
+              "actual": "2.00",
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Whole amount",
+              "inputs": [
+                "100",
+                "0.02"
+              ],
+              "expected": "2.00",
+              "actual": "2.00",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Small whole amount",
+              "inputs": [
+                "8",
+                "0.05"
+              ],
+              "expected": "0.40",
+              "actual": "0.40",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Large whole amount",
+              "inputs": [
+                "2000",
+                "0.01"
+              ],
+              "expected": "20.00",
+              "actual": "20.00",
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Whole amount",
+              "inputs": [
+                "100",
+                "0.02"
+              ],
+              "expected": "2.00",
+              "actual": "2.00",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Positive half-cent tie",
+              "inputs": [
+                "1",
+                "0.005"
+              ],
+              "expected": "0.01",
+              "actual": "0.01",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Negative reversal",
+              "inputs": [
+                "-100",
+                "0.02"
+              ],
+              "expected": "-2.00",
+              "actual": "-2.00",
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": false,
+        "checks": [
+          {
+            "check": "Negative half-cent tie",
+            "inputs": [
+              "-5",
+              "0.005"
+            ],
+            "expected": "-0.03",
+            "actual": "-0.03",
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Fee on fractional principal",
+            "inputs": [
+              "9.80",
+              "0.05"
+            ],
+            "expected": "0.49",
+            "actual": "0.49",
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "fee-rounding/half-even",
+      "rule": "fee-rounding",
+      "requirement": "Multiply the signed amount by the rate and round half away from zero to cents.",
+      "candidate": "half-even",
+      "description": "Uses banker's rounding for half-cent ties",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Whole amount",
+              "inputs": [
+                "100",
+                "0.02"
+              ],
+              "expected": "2.00",
+              "actual": "2.00",
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Whole amount",
+              "inputs": [
+                "100",
+                "0.02"
+              ],
+              "expected": "2.00",
+              "actual": "2.00",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Small whole amount",
+              "inputs": [
+                "8",
+                "0.05"
+              ],
+              "expected": "0.40",
+              "actual": "0.40",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Large whole amount",
+              "inputs": [
+                "2000",
+                "0.01"
+              ],
+              "expected": "20.00",
+              "actual": "20.00",
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": false,
+          "checks": [
+            {
+              "check": "Whole amount",
+              "inputs": [
+                "100",
+                "0.02"
+              ],
+              "expected": "2.00",
+              "actual": "2.00",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Positive half-cent tie",
+              "inputs": [
+                "1",
+                "0.005"
+              ],
+              "expected": "0.01",
+              "actual": "0.00",
+              "error": null,
+              "passed": false
+            },
+            {
+              "check": "Negative reversal",
+              "inputs": [
+                "-100",
+                "0.02"
+              ],
+              "expected": "-2.00",
+              "actual": "-2.00",
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "Negative half-cent tie",
+            "inputs": [
+              "-5",
+              "0.005"
+            ],
+            "expected": "-0.03",
+            "actual": "-0.02",
+            "error": null,
+            "passed": false
+          },
+          {
+            "check": "Fee on fractional principal",
+            "inputs": [
+              "9.80",
+              "0.05"
+            ],
+            "expected": "0.49",
+            "actual": "0.49",
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "fee-rounding/lost-sign",
+      "rule": "fee-rounding",
+      "requirement": "Multiply the signed amount by the rate and round half away from zero to cents.",
+      "candidate": "lost-sign",
+      "description": "Drops the sign of a reversal",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Whole amount",
+              "inputs": [
+                "100",
+                "0.02"
+              ],
+              "expected": "2.00",
+              "actual": "2.00",
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Whole amount",
+              "inputs": [
+                "100",
+                "0.02"
+              ],
+              "expected": "2.00",
+              "actual": "2.00",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Small whole amount",
+              "inputs": [
+                "8",
+                "0.05"
+              ],
+              "expected": "0.40",
+              "actual": "0.40",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Large whole amount",
+              "inputs": [
+                "2000",
+                "0.01"
+              ],
+              "expected": "20.00",
+              "actual": "20.00",
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": false,
+          "checks": [
+            {
+              "check": "Whole amount",
+              "inputs": [
+                "100",
+                "0.02"
+              ],
+              "expected": "2.00",
+              "actual": "2.00",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Positive half-cent tie",
+              "inputs": [
+                "1",
+                "0.005"
+              ],
+              "expected": "0.01",
+              "actual": "0.01",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Negative reversal",
+              "inputs": [
+                "-100",
+                "0.02"
+              ],
+              "expected": "-2.00",
+              "actual": "2.00",
+              "error": null,
+              "passed": false
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "Negative half-cent tie",
+            "inputs": [
+              "-5",
+              "0.005"
+            ],
+            "expected": "-0.03",
+            "actual": "0.03",
+            "error": null,
+            "passed": false
+          },
+          {
+            "check": "Fee on fractional principal",
+            "inputs": [
+              "9.80",
+              "0.05"
+            ],
+            "expected": "0.49",
+            "actual": "0.49",
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "fee-rounding/truncated-amount",
+      "rule": "fee-rounding",
+      "requirement": "Multiply the signed amount by the rate and round half away from zero to cents.",
+      "candidate": "truncated-amount",
+      "description": "Discards cents before calculating the fee",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Whole amount",
+              "inputs": [
+                "100",
+                "0.02"
+              ],
+              "expected": "2.00",
+              "actual": "2.00",
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Whole amount",
+              "inputs": [
+                "100",
+                "0.02"
+              ],
+              "expected": "2.00",
+              "actual": "2.00",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Small whole amount",
+              "inputs": [
+                "8",
+                "0.05"
+              ],
+              "expected": "0.40",
+              "actual": "0.40",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Large whole amount",
+              "inputs": [
+                "2000",
+                "0.01"
+              ],
+              "expected": "20.00",
+              "actual": "20.00",
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Whole amount",
+              "inputs": [
+                "100",
+                "0.02"
+              ],
+              "expected": "2.00",
+              "actual": "2.00",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Positive half-cent tie",
+              "inputs": [
+                "1",
+                "0.005"
+              ],
+              "expected": "0.01",
+              "actual": "0.01",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Negative reversal",
+              "inputs": [
+                "-100",
+                "0.02"
+              ],
+              "expected": "-2.00",
+              "actual": "-2.00",
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "Negative half-cent tie",
+            "inputs": [
+              "-5",
+              "0.005"
+            ],
+            "expected": "-0.03",
+            "actual": "-0.03",
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Fee on fractional principal",
+            "inputs": [
+              "9.80",
+              "0.05"
+            ],
+            "expected": "0.49",
+            "actual": "0.45",
+            "error": null,
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "payment-retry/reference",
+      "rule": "payment-retry",
+      "requirement": "Sum booked minor units once per (account, event ID). A retry keeps the first amount.",
+      "candidate": "reference",
+      "description": "Deduplicates on account and event ID",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Two distinct bookings",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p1",
+                    100
+                  ],
+                  [
+                    "a",
+                    "p2",
+                    200
+                  ]
+                ]
+              ],
+              "expected": 300,
+              "actual": 300,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Two distinct bookings",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p1",
+                    100
+                  ],
+                  [
+                    "a",
+                    "p2",
+                    200
+                  ]
+                ]
+              ],
+              "expected": 300,
+              "actual": 300,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "No events",
+              "inputs": [
+                []
+              ],
+              "expected": 0,
+              "actual": 0,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Distinct event IDs across accounts",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p4",
+                    900
+                  ],
+                  [
+                    "b",
+                    "p5",
+                    115
+                  ]
+                ]
+              ],
+              "expected": 1015,
+              "actual": 1015,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Two distinct bookings",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p1",
+                    100
+                  ],
+                  [
+                    "a",
+                    "p2",
+                    200
+                  ]
+                ]
+              ],
+              "expected": 300,
+              "actual": 300,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Identical replay",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p9",
+                    100
+                  ],
+                  [
+                    "a",
+                    "p9",
+                    100
+                  ]
+                ]
+              ],
+              "expected": 100,
+              "actual": 100,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Different events with the same amount",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p9",
+                    50
+                  ],
+                  [
+                    "a",
+                    "p10",
+                    50
+                  ]
+                ]
+              ],
+              "expected": 100,
+              "actual": 100,
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": false,
+        "checks": [
+          {
+            "check": "Late replay with changed amount",
+            "inputs": [
+              [
+                [
+                  "x",
+                  "r1",
+                  18
+                ],
+                [
+                  "x",
+                  "r1",
+                  91
+                ]
+              ]
+            ],
+            "expected": 18,
+            "actual": 18,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Shared event ID across accounts",
+            "inputs": [
+              [
+                [
+                  "x",
+                  "r2",
+                  12
+                ],
+                [
+                  "y",
+                  "r2",
+                  24
+                ]
+              ]
+            ],
+            "expected": 36,
+            "actual": 36,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Equal credits under distinct IDs",
+            "inputs": [
+              [
+                [
+                  "x",
+                  "r3",
+                  11
+                ],
+                [
+                  "x",
+                  "r4",
+                  11
+                ]
+              ]
+            ],
+            "expected": 22,
+            "actual": 22,
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "payment-retry/no-deduplication",
+      "rule": "payment-retry",
+      "requirement": "Sum booked minor units once per (account, event ID). A retry keeps the first amount.",
+      "candidate": "no-deduplication",
+      "description": "Books duplicate delivery twice",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Two distinct bookings",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p1",
+                    100
+                  ],
+                  [
+                    "a",
+                    "p2",
+                    200
+                  ]
+                ]
+              ],
+              "expected": 300,
+              "actual": 300,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Two distinct bookings",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p1",
+                    100
+                  ],
+                  [
+                    "a",
+                    "p2",
+                    200
+                  ]
+                ]
+              ],
+              "expected": 300,
+              "actual": 300,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "No events",
+              "inputs": [
+                []
+              ],
+              "expected": 0,
+              "actual": 0,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Distinct event IDs across accounts",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p4",
+                    900
+                  ],
+                  [
+                    "b",
+                    "p5",
+                    115
+                  ]
+                ]
+              ],
+              "expected": 1015,
+              "actual": 1015,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": false,
+          "checks": [
+            {
+              "check": "Two distinct bookings",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p1",
+                    100
+                  ],
+                  [
+                    "a",
+                    "p2",
+                    200
+                  ]
+                ]
+              ],
+              "expected": 300,
+              "actual": 300,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Identical replay",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p9",
+                    100
+                  ],
+                  [
+                    "a",
+                    "p9",
+                    100
+                  ]
+                ]
+              ],
+              "expected": 100,
+              "actual": 200,
+              "error": null,
+              "passed": false
+            },
+            {
+              "check": "Different events with the same amount",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p9",
+                    50
+                  ],
+                  [
+                    "a",
+                    "p10",
+                    50
+                  ]
+                ]
+              ],
+              "expected": 100,
+              "actual": 100,
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "Late replay with changed amount",
+            "inputs": [
+              [
+                [
+                  "x",
+                  "r1",
+                  18
+                ],
+                [
+                  "x",
+                  "r1",
+                  91
+                ]
+              ]
+            ],
+            "expected": 18,
+            "actual": 109,
+            "error": null,
+            "passed": false
+          },
+          {
+            "check": "Shared event ID across accounts",
+            "inputs": [
+              [
+                [
+                  "x",
+                  "r2",
+                  12
+                ],
+                [
+                  "y",
+                  "r2",
+                  24
+                ]
+              ]
+            ],
+            "expected": 36,
+            "actual": 36,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Equal credits under distinct IDs",
+            "inputs": [
+              [
+                [
+                  "x",
+                  "r3",
+                  11
+                ],
+                [
+                  "x",
+                  "r4",
+                  11
+                ]
+              ]
+            ],
+            "expected": 22,
+            "actual": 22,
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "payment-retry/amount-key",
+      "rule": "payment-retry",
+      "requirement": "Sum booked minor units once per (account, event ID). A retry keeps the first amount.",
+      "candidate": "amount-key",
+      "description": "Treats distinct equal-amount events as duplicates",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Two distinct bookings",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p1",
+                    100
+                  ],
+                  [
+                    "a",
+                    "p2",
+                    200
+                  ]
+                ]
+              ],
+              "expected": 300,
+              "actual": 300,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Two distinct bookings",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p1",
+                    100
+                  ],
+                  [
+                    "a",
+                    "p2",
+                    200
+                  ]
+                ]
+              ],
+              "expected": 300,
+              "actual": 300,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "No events",
+              "inputs": [
+                []
+              ],
+              "expected": 0,
+              "actual": 0,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Distinct event IDs across accounts",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p4",
+                    900
+                  ],
+                  [
+                    "b",
+                    "p5",
+                    115
+                  ]
+                ]
+              ],
+              "expected": 1015,
+              "actual": 1015,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": false,
+          "checks": [
+            {
+              "check": "Two distinct bookings",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p1",
+                    100
+                  ],
+                  [
+                    "a",
+                    "p2",
+                    200
+                  ]
+                ]
+              ],
+              "expected": 300,
+              "actual": 300,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Identical replay",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p9",
+                    100
+                  ],
+                  [
+                    "a",
+                    "p9",
+                    100
+                  ]
+                ]
+              ],
+              "expected": 100,
+              "actual": 100,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Different events with the same amount",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p9",
+                    50
+                  ],
+                  [
+                    "a",
+                    "p10",
+                    50
+                  ]
+                ]
+              ],
+              "expected": 100,
+              "actual": 50,
+              "error": null,
+              "passed": false
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "Late replay with changed amount",
+            "inputs": [
+              [
+                [
+                  "x",
+                  "r1",
+                  18
+                ],
+                [
+                  "x",
+                  "r1",
+                  91
+                ]
+              ]
+            ],
+            "expected": 18,
+            "actual": 109,
+            "error": null,
+            "passed": false
+          },
+          {
+            "check": "Shared event ID across accounts",
+            "inputs": [
+              [
+                [
+                  "x",
+                  "r2",
+                  12
+                ],
+                [
+                  "y",
+                  "r2",
+                  24
+                ]
+              ]
+            ],
+            "expected": 36,
+            "actual": 36,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Equal credits under distinct IDs",
+            "inputs": [
+              [
+                [
+                  "x",
+                  "r3",
+                  11
+                ],
+                [
+                  "x",
+                  "r4",
+                  11
+                ]
+              ]
+            ],
+            "expected": 22,
+            "actual": 11,
+            "error": null,
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "payment-retry/global-key",
+      "rule": "payment-retry",
+      "requirement": "Sum booked minor units once per (account, event ID). A retry keeps the first amount.",
+      "candidate": "global-key",
+      "description": "Treats the event ID as globally unique",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Two distinct bookings",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p1",
+                    100
+                  ],
+                  [
+                    "a",
+                    "p2",
+                    200
+                  ]
+                ]
+              ],
+              "expected": 300,
+              "actual": 300,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Two distinct bookings",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p1",
+                    100
+                  ],
+                  [
+                    "a",
+                    "p2",
+                    200
+                  ]
+                ]
+              ],
+              "expected": 300,
+              "actual": 300,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "No events",
+              "inputs": [
+                []
+              ],
+              "expected": 0,
+              "actual": 0,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Distinct event IDs across accounts",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p4",
+                    900
+                  ],
+                  [
+                    "b",
+                    "p5",
+                    115
+                  ]
+                ]
+              ],
+              "expected": 1015,
+              "actual": 1015,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Two distinct bookings",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p1",
+                    100
+                  ],
+                  [
+                    "a",
+                    "p2",
+                    200
+                  ]
+                ]
+              ],
+              "expected": 300,
+              "actual": 300,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Identical replay",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p9",
+                    100
+                  ],
+                  [
+                    "a",
+                    "p9",
+                    100
+                  ]
+                ]
+              ],
+              "expected": 100,
+              "actual": 100,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Different events with the same amount",
+              "inputs": [
+                [
+                  [
+                    "a",
+                    "p9",
+                    50
+                  ],
+                  [
+                    "a",
+                    "p10",
+                    50
+                  ]
+                ]
+              ],
+              "expected": 100,
+              "actual": 100,
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "Late replay with changed amount",
+            "inputs": [
+              [
+                [
+                  "x",
+                  "r1",
+                  18
+                ],
+                [
+                  "x",
+                  "r1",
+                  91
+                ]
+              ]
+            ],
+            "expected": 18,
+            "actual": 18,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Shared event ID across accounts",
+            "inputs": [
+              [
+                [
+                  "x",
+                  "r2",
+                  12
+                ],
+                [
+                  "y",
+                  "r2",
+                  24
+                ]
+              ]
+            ],
+            "expected": 36,
+            "actual": 12,
+            "error": null,
+            "passed": false
+          },
+          {
+            "check": "Equal credits under distinct IDs",
+            "inputs": [
+              [
+                [
+                  "x",
+                  "r3",
+                  11
+                ],
+                [
+                  "x",
+                  "r4",
+                  11
+                ]
+              ]
+            ],
+            "expected": 22,
+            "actual": 22,
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "affordability/reference",
+      "rule": "affordability",
+      "requirement": "Accept when all inputs in minor units are non-negative and disposable income covers the instalment, including equality.",
+      "candidate": "reference",
+      "description": "Validates inputs and includes an exact match",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Income exceeds costs and instalment",
+              "inputs": [
+                4000,
+                1500,
+                500,
+                900
+              ],
+              "expected": true,
+              "actual": true,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Income exceeds costs and instalment",
+              "inputs": [
+                4000,
+                1500,
+                500,
+                900
+              ],
+              "expected": true,
+              "actual": true,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Essentials consume most of the income",
+              "inputs": [
+                2000,
+                1900,
+                0,
+                200
+              ],
+              "expected": false,
+              "actual": false,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Obligations make an instalment unaffordable",
+              "inputs": [
+                3500,
+                1500,
+                1500,
+                800
+              ],
+              "expected": false,
+              "actual": false,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Income exceeds costs and instalment",
+              "inputs": [
+                4000,
+                1500,
+                500,
+                900
+              ],
+              "expected": true,
+              "actual": true,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Disposable amount exactly covers payment",
+              "inputs": [
+                3000,
+                1900,
+                500,
+                600
+              ],
+              "expected": true,
+              "actual": true,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "One minor unit below payment",
+              "inputs": [
+                3000,
+                1900,
+                500,
+                601
+              ],
+              "expected": false,
+              "actual": false,
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": false,
+        "checks": [
+          {
+            "check": "No spare income after scheduled payment",
+            "inputs": [
+              2500,
+              1400,
+              400,
+              700
+            ],
+            "expected": true,
+            "actual": true,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Invalid negative essential expense",
+            "inputs": [
+              1500,
+              -10,
+              400,
+              100
+            ],
+            "expected": false,
+            "actual": false,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Existing obligations push below threshold",
+            "inputs": [
+              2510,
+              1300,
+              900,
+              500
+            ],
+            "expected": false,
+            "actual": false,
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "affordability/ignored-obligations",
+      "rule": "affordability",
+      "requirement": "Accept when all inputs in minor units are non-negative and disposable income covers the instalment, including equality.",
+      "candidate": "ignored-obligations",
+      "description": "Leaves out existing obligations",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Income exceeds costs and instalment",
+              "inputs": [
+                4000,
+                1500,
+                500,
+                900
+              ],
+              "expected": true,
+              "actual": true,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": false,
+          "checks": [
+            {
+              "check": "Income exceeds costs and instalment",
+              "inputs": [
+                4000,
+                1500,
+                500,
+                900
+              ],
+              "expected": true,
+              "actual": true,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Essentials consume most of the income",
+              "inputs": [
+                2000,
+                1900,
+                0,
+                200
+              ],
+              "expected": false,
+              "actual": false,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Obligations make an instalment unaffordable",
+              "inputs": [
+                3500,
+                1500,
+                1500,
+                800
+              ],
+              "expected": false,
+              "actual": true,
+              "error": null,
+              "passed": false
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": false,
+          "checks": [
+            {
+              "check": "Income exceeds costs and instalment",
+              "inputs": [
+                4000,
+                1500,
+                500,
+                900
+              ],
+              "expected": true,
+              "actual": true,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Disposable amount exactly covers payment",
+              "inputs": [
+                3000,
+                1900,
+                500,
+                600
+              ],
+              "expected": true,
+              "actual": true,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "One minor unit below payment",
+              "inputs": [
+                3000,
+                1900,
+                500,
+                601
+              ],
+              "expected": false,
+              "actual": true,
+              "error": null,
+              "passed": false
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "No spare income after scheduled payment",
+            "inputs": [
+              2500,
+              1400,
+              400,
+              700
+            ],
+            "expected": true,
+            "actual": true,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Invalid negative essential expense",
+            "inputs": [
+              1500,
+              -10,
+              400,
+              100
+            ],
+            "expected": false,
+            "actual": false,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Existing obligations push below threshold",
+            "inputs": [
+              2510,
+              1300,
+              900,
+              500
+            ],
+            "expected": false,
+            "actual": true,
+            "error": null,
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "affordability/strict-threshold",
+      "rule": "affordability",
+      "requirement": "Accept when all inputs in minor units are non-negative and disposable income covers the instalment, including equality.",
+      "candidate": "strict-threshold",
+      "description": "Requires a positive surplus after payment",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Income exceeds costs and instalment",
+              "inputs": [
+                4000,
+                1500,
+                500,
+                900
+              ],
+              "expected": true,
+              "actual": true,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Income exceeds costs and instalment",
+              "inputs": [
+                4000,
+                1500,
+                500,
+                900
+              ],
+              "expected": true,
+              "actual": true,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Essentials consume most of the income",
+              "inputs": [
+                2000,
+                1900,
+                0,
+                200
+              ],
+              "expected": false,
+              "actual": false,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Obligations make an instalment unaffordable",
+              "inputs": [
+                3500,
+                1500,
+                1500,
+                800
+              ],
+              "expected": false,
+              "actual": false,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": false,
+          "checks": [
+            {
+              "check": "Income exceeds costs and instalment",
+              "inputs": [
+                4000,
+                1500,
+                500,
+                900
+              ],
+              "expected": true,
+              "actual": true,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Disposable amount exactly covers payment",
+              "inputs": [
+                3000,
+                1900,
+                500,
+                600
+              ],
+              "expected": true,
+              "actual": false,
+              "error": null,
+              "passed": false
+            },
+            {
+              "check": "One minor unit below payment",
+              "inputs": [
+                3000,
+                1900,
+                500,
+                601
+              ],
+              "expected": false,
+              "actual": false,
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "No spare income after scheduled payment",
+            "inputs": [
+              2500,
+              1400,
+              400,
+              700
+            ],
+            "expected": true,
+            "actual": false,
+            "error": null,
+            "passed": false
+          },
+          {
+            "check": "Invalid negative essential expense",
+            "inputs": [
+              1500,
+              -10,
+              400,
+              100
+            ],
+            "expected": false,
+            "actual": false,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Existing obligations push below threshold",
+            "inputs": [
+              2510,
+              1300,
+              900,
+              500
+            ],
+            "expected": false,
+            "actual": false,
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "affordability/negative-costs",
+      "rule": "affordability",
+      "requirement": "Accept when all inputs in minor units are non-negative and disposable income covers the instalment, including equality.",
+      "candidate": "negative-costs",
+      "description": "Allows negative expenses to inflate disposable income",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Income exceeds costs and instalment",
+              "inputs": [
+                4000,
+                1500,
+                500,
+                900
+              ],
+              "expected": true,
+              "actual": true,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Income exceeds costs and instalment",
+              "inputs": [
+                4000,
+                1500,
+                500,
+                900
+              ],
+              "expected": true,
+              "actual": true,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Essentials consume most of the income",
+              "inputs": [
+                2000,
+                1900,
+                0,
+                200
+              ],
+              "expected": false,
+              "actual": false,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Obligations make an instalment unaffordable",
+              "inputs": [
+                3500,
+                1500,
+                1500,
+                800
+              ],
+              "expected": false,
+              "actual": false,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Income exceeds costs and instalment",
+              "inputs": [
+                4000,
+                1500,
+                500,
+                900
+              ],
+              "expected": true,
+              "actual": true,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Disposable amount exactly covers payment",
+              "inputs": [
+                3000,
+                1900,
+                500,
+                600
+              ],
+              "expected": true,
+              "actual": true,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "One minor unit below payment",
+              "inputs": [
+                3000,
+                1900,
+                500,
+                601
+              ],
+              "expected": false,
+              "actual": false,
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "No spare income after scheduled payment",
+            "inputs": [
+              2500,
+              1400,
+              400,
+              700
+            ],
+            "expected": true,
+            "actual": true,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Invalid negative essential expense",
+            "inputs": [
+              1500,
+              -10,
+              400,
+              100
+            ],
+            "expected": false,
+            "actual": true,
+            "error": null,
+            "passed": false
+          },
+          {
+            "check": "Existing obligations push below threshold",
+            "inputs": [
+              2510,
+              1300,
+              900,
+              500
+            ],
+            "expected": false,
+            "actual": false,
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "statement-window/reference",
+      "rule": "statement-window",
+      "requirement": "Include entries from the start date up to but excluding the end date. Preserve arrival order on same-day ties.",
+      "candidate": "reference",
+      "description": "Uses a half-open range and stable date ordering",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "One entry inside and one after range",
+              "inputs": [
+                [
+                  [
+                    "2025-04-10",
+                    "a"
+                  ],
+                  [
+                    "2025-05-10",
+                    "b"
+                  ]
+                ],
+                "2025-04-01",
+                "2025-05-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "One entry inside and one after range",
+              "inputs": [
+                [
+                  [
+                    "2025-04-10",
+                    "a"
+                  ],
+                  [
+                    "2025-05-10",
+                    "b"
+                  ]
+                ],
+                "2025-04-01",
+                "2025-05-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Empty statement",
+              "inputs": [
+                [],
+                "2025-06-01",
+                "2025-07-01"
+              ],
+              "expected": [],
+              "actual": [],
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Dates appear in chronological order",
+              "inputs": [
+                [
+                  [
+                    "2025-06-13",
+                    "b"
+                  ],
+                  [
+                    "2025-06-02",
+                    "a"
+                  ]
+                ],
+                "2025-06-01",
+                "2025-07-01"
+              ],
+              "expected": [
+                "a",
+                "b"
+              ],
+              "actual": [
+                "a",
+                "b"
+              ],
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "One entry inside and one after range",
+              "inputs": [
+                [
+                  [
+                    "2025-04-10",
+                    "a"
+                  ],
+                  [
+                    "2025-05-10",
+                    "b"
+                  ]
+                ],
+                "2025-04-01",
+                "2025-05-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Start date is included and prior day excluded",
+              "inputs": [
+                [
+                  [
+                    "2025-06-01",
+                    "a"
+                  ],
+                  [
+                    "2025-05-31",
+                    "b"
+                  ]
+                ],
+                "2025-06-01",
+                "2025-07-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "End date is excluded",
+              "inputs": [
+                [
+                  [
+                    "2025-06-30",
+                    "a"
+                  ],
+                  [
+                    "2025-07-01",
+                    "b"
+                  ]
+                ],
+                "2025-06-01",
+                "2025-07-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": false,
+        "checks": [
+          {
+            "check": "Leap-day boundary",
+            "inputs": [
+              [
+                [
+                  "2024-02-28",
+                  "a"
+                ],
+                [
+                  "2024-02-29",
+                  "b"
+                ],
+                [
+                  "2024-03-01",
+                  "c"
+                ]
+              ],
+              "2024-02-29",
+              "2024-03-01"
+            ],
+            "expected": [
+              "b"
+            ],
+            "actual": [
+              "b"
+            ],
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Same-day arrival order",
+            "inputs": [
+              [
+                [
+                  "2025-06-14",
+                  "z"
+                ],
+                [
+                  "2025-06-14",
+                  "a"
+                ]
+              ],
+              "2025-06-13",
+              "2025-06-15"
+            ],
+            "expected": [
+              "z",
+              "a"
+            ],
+            "actual": [
+              "z",
+              "a"
+            ],
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "statement-window/start-ignored",
+      "rule": "statement-window",
+      "requirement": "Include entries from the start date up to but excluding the end date. Preserve arrival order on same-day ties.",
+      "candidate": "start-ignored",
+      "description": "Includes entries before the statement starts",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "One entry inside and one after range",
+              "inputs": [
+                [
+                  [
+                    "2025-04-10",
+                    "a"
+                  ],
+                  [
+                    "2025-05-10",
+                    "b"
+                  ]
+                ],
+                "2025-04-01",
+                "2025-05-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "One entry inside and one after range",
+              "inputs": [
+                [
+                  [
+                    "2025-04-10",
+                    "a"
+                  ],
+                  [
+                    "2025-05-10",
+                    "b"
+                  ]
+                ],
+                "2025-04-01",
+                "2025-05-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Empty statement",
+              "inputs": [
+                [],
+                "2025-06-01",
+                "2025-07-01"
+              ],
+              "expected": [],
+              "actual": [],
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Dates appear in chronological order",
+              "inputs": [
+                [
+                  [
+                    "2025-06-13",
+                    "b"
+                  ],
+                  [
+                    "2025-06-02",
+                    "a"
+                  ]
+                ],
+                "2025-06-01",
+                "2025-07-01"
+              ],
+              "expected": [
+                "a",
+                "b"
+              ],
+              "actual": [
+                "a",
+                "b"
+              ],
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": false,
+          "checks": [
+            {
+              "check": "One entry inside and one after range",
+              "inputs": [
+                [
+                  [
+                    "2025-04-10",
+                    "a"
+                  ],
+                  [
+                    "2025-05-10",
+                    "b"
+                  ]
+                ],
+                "2025-04-01",
+                "2025-05-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Start date is included and prior day excluded",
+              "inputs": [
+                [
+                  [
+                    "2025-06-01",
+                    "a"
+                  ],
+                  [
+                    "2025-05-31",
+                    "b"
+                  ]
+                ],
+                "2025-06-01",
+                "2025-07-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "b",
+                "a"
+              ],
+              "error": null,
+              "passed": false
+            },
+            {
+              "check": "End date is excluded",
+              "inputs": [
+                [
+                  [
+                    "2025-06-30",
+                    "a"
+                  ],
+                  [
+                    "2025-07-01",
+                    "b"
+                  ]
+                ],
+                "2025-06-01",
+                "2025-07-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "Leap-day boundary",
+            "inputs": [
+              [
+                [
+                  "2024-02-28",
+                  "a"
+                ],
+                [
+                  "2024-02-29",
+                  "b"
+                ],
+                [
+                  "2024-03-01",
+                  "c"
+                ]
+              ],
+              "2024-02-29",
+              "2024-03-01"
+            ],
+            "expected": [
+              "b"
+            ],
+            "actual": [
+              "a",
+              "b"
+            ],
+            "error": null,
+            "passed": false
+          },
+          {
+            "check": "Same-day arrival order",
+            "inputs": [
+              [
+                [
+                  "2025-06-14",
+                  "z"
+                ],
+                [
+                  "2025-06-14",
+                  "a"
+                ]
+              ],
+              "2025-06-13",
+              "2025-06-15"
+            ],
+            "expected": [
+              "z",
+              "a"
+            ],
+            "actual": [
+              "z",
+              "a"
+            ],
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "statement-window/end-inclusive",
+      "rule": "statement-window",
+      "requirement": "Include entries from the start date up to but excluding the end date. Preserve arrival order on same-day ties.",
+      "candidate": "end-inclusive",
+      "description": "Includes entries from the next statement period",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "One entry inside and one after range",
+              "inputs": [
+                [
+                  [
+                    "2025-04-10",
+                    "a"
+                  ],
+                  [
+                    "2025-05-10",
+                    "b"
+                  ]
+                ],
+                "2025-04-01",
+                "2025-05-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "One entry inside and one after range",
+              "inputs": [
+                [
+                  [
+                    "2025-04-10",
+                    "a"
+                  ],
+                  [
+                    "2025-05-10",
+                    "b"
+                  ]
+                ],
+                "2025-04-01",
+                "2025-05-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Empty statement",
+              "inputs": [
+                [],
+                "2025-06-01",
+                "2025-07-01"
+              ],
+              "expected": [],
+              "actual": [],
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Dates appear in chronological order",
+              "inputs": [
+                [
+                  [
+                    "2025-06-13",
+                    "b"
+                  ],
+                  [
+                    "2025-06-02",
+                    "a"
+                  ]
+                ],
+                "2025-06-01",
+                "2025-07-01"
+              ],
+              "expected": [
+                "a",
+                "b"
+              ],
+              "actual": [
+                "a",
+                "b"
+              ],
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": false,
+          "checks": [
+            {
+              "check": "One entry inside and one after range",
+              "inputs": [
+                [
+                  [
+                    "2025-04-10",
+                    "a"
+                  ],
+                  [
+                    "2025-05-10",
+                    "b"
+                  ]
+                ],
+                "2025-04-01",
+                "2025-05-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Start date is included and prior day excluded",
+              "inputs": [
+                [
+                  [
+                    "2025-06-01",
+                    "a"
+                  ],
+                  [
+                    "2025-05-31",
+                    "b"
+                  ]
+                ],
+                "2025-06-01",
+                "2025-07-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "End date is excluded",
+              "inputs": [
+                [
+                  [
+                    "2025-06-30",
+                    "a"
+                  ],
+                  [
+                    "2025-07-01",
+                    "b"
+                  ]
+                ],
+                "2025-06-01",
+                "2025-07-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a",
+                "b"
+              ],
+              "error": null,
+              "passed": false
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "Leap-day boundary",
+            "inputs": [
+              [
+                [
+                  "2024-02-28",
+                  "a"
+                ],
+                [
+                  "2024-02-29",
+                  "b"
+                ],
+                [
+                  "2024-03-01",
+                  "c"
+                ]
+              ],
+              "2024-02-29",
+              "2024-03-01"
+            ],
+            "expected": [
+              "b"
+            ],
+            "actual": [
+              "b",
+              "c"
+            ],
+            "error": null,
+            "passed": false
+          },
+          {
+            "check": "Same-day arrival order",
+            "inputs": [
+              [
+                [
+                  "2025-06-14",
+                  "z"
+                ],
+                [
+                  "2025-06-14",
+                  "a"
+                ]
+              ],
+              "2025-06-13",
+              "2025-06-15"
+            ],
+            "expected": [
+              "z",
+              "a"
+            ],
+            "actual": [
+              "z",
+              "a"
+            ],
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "statement-window/tie-order",
+      "rule": "statement-window",
+      "requirement": "Include entries from the start date up to but excluding the end date. Preserve arrival order on same-day ties.",
+      "candidate": "tie-order",
+      "description": "Reorders same-day entries by identifier",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "One entry inside and one after range",
+              "inputs": [
+                [
+                  [
+                    "2025-04-10",
+                    "a"
+                  ],
+                  [
+                    "2025-05-10",
+                    "b"
+                  ]
+                ],
+                "2025-04-01",
+                "2025-05-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "One entry inside and one after range",
+              "inputs": [
+                [
+                  [
+                    "2025-04-10",
+                    "a"
+                  ],
+                  [
+                    "2025-05-10",
+                    "b"
+                  ]
+                ],
+                "2025-04-01",
+                "2025-05-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Empty statement",
+              "inputs": [
+                [],
+                "2025-06-01",
+                "2025-07-01"
+              ],
+              "expected": [],
+              "actual": [],
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Dates appear in chronological order",
+              "inputs": [
+                [
+                  [
+                    "2025-06-13",
+                    "b"
+                  ],
+                  [
+                    "2025-06-02",
+                    "a"
+                  ]
+                ],
+                "2025-06-01",
+                "2025-07-01"
+              ],
+              "expected": [
+                "a",
+                "b"
+              ],
+              "actual": [
+                "a",
+                "b"
+              ],
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "One entry inside and one after range",
+              "inputs": [
+                [
+                  [
+                    "2025-04-10",
+                    "a"
+                  ],
+                  [
+                    "2025-05-10",
+                    "b"
+                  ]
+                ],
+                "2025-04-01",
+                "2025-05-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Start date is included and prior day excluded",
+              "inputs": [
+                [
+                  [
+                    "2025-06-01",
+                    "a"
+                  ],
+                  [
+                    "2025-05-31",
+                    "b"
+                  ]
+                ],
+                "2025-06-01",
+                "2025-07-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "End date is excluded",
+              "inputs": [
+                [
+                  [
+                    "2025-06-30",
+                    "a"
+                  ],
+                  [
+                    "2025-07-01",
+                    "b"
+                  ]
+                ],
+                "2025-06-01",
+                "2025-07-01"
+              ],
+              "expected": [
+                "a"
+              ],
+              "actual": [
+                "a"
+              ],
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "Leap-day boundary",
+            "inputs": [
+              [
+                [
+                  "2024-02-28",
+                  "a"
+                ],
+                [
+                  "2024-02-29",
+                  "b"
+                ],
+                [
+                  "2024-03-01",
+                  "c"
+                ]
+              ],
+              "2024-02-29",
+              "2024-03-01"
+            ],
+            "expected": [
+              "b"
+            ],
+            "actual": [
+              "b"
+            ],
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Same-day arrival order",
+            "inputs": [
+              [
+                [
+                  "2025-06-14",
+                  "z"
+                ],
+                [
+                  "2025-06-14",
+                  "a"
+                ]
+              ],
+              "2025-06-13",
+              "2025-06-15"
+            ],
+            "expected": [
+              "z",
+              "a"
+            ],
+            "actual": [
+              "a",
+              "z"
+            ],
+            "error": null,
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "partial-refund/reference",
+      "rule": "partial-refund",
+      "requirement": "Cap a refund at the unrefunded amount and treat a negative request as zero. Assume valid prior totals in minor units.",
+      "candidate": "reference",
+      "description": "Respects remaining balance and zero floor",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Ordinary partial refund",
+              "inputs": [
+                1000,
+                2400,
+                0
+              ],
+              "expected": 1000,
+              "actual": 1000,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Ordinary partial refund",
+              "inputs": [
+                1000,
+                2400,
+                0
+              ],
+              "expected": 1000,
+              "actual": 1000,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Full refund of untouched payment",
+              "inputs": [
+                1700,
+                1700,
+                0
+              ],
+              "expected": 1700,
+              "actual": 1700,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Small refund after prior activity",
+              "inputs": [
+                100,
+                5000,
+                170
+              ],
+              "expected": 100,
+              "actual": 100,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Ordinary partial refund",
+              "inputs": [
+                1000,
+                2400,
+                0
+              ],
+              "expected": 1000,
+              "actual": 1000,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Request above unrefunded balance",
+              "inputs": [
+                3000,
+                4000,
+                2000
+              ],
+              "expected": 2000,
+              "actual": 2000,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Negative request",
+              "inputs": [
+                -1,
+                4000,
+                1000
+              ],
+              "expected": 0,
+              "actual": 0,
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": false,
+        "checks": [
+          {
+            "check": "Second refund exactly uses balance",
+            "inputs": [
+              321,
+              1000,
+              679
+            ],
+            "expected": 321,
+            "actual": 321,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Additional refund after full refund",
+            "inputs": [
+              7,
+              100,
+              100
+            ],
+            "expected": 0,
+            "actual": 0,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Reversal sign in refund request",
+            "inputs": [
+              -12,
+              100,
+              30
+            ],
+            "expected": 0,
+            "actual": 0,
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "partial-refund/previous-ignored",
+      "rule": "partial-refund",
+      "requirement": "Cap a refund at the unrefunded amount and treat a negative request as zero. Assume valid prior totals in minor units.",
+      "candidate": "previous-ignored",
+      "description": "Computes the cap from the original payment",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Ordinary partial refund",
+              "inputs": [
+                1000,
+                2400,
+                0
+              ],
+              "expected": 1000,
+              "actual": 1000,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Ordinary partial refund",
+              "inputs": [
+                1000,
+                2400,
+                0
+              ],
+              "expected": 1000,
+              "actual": 1000,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Full refund of untouched payment",
+              "inputs": [
+                1700,
+                1700,
+                0
+              ],
+              "expected": 1700,
+              "actual": 1700,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Small refund after prior activity",
+              "inputs": [
+                100,
+                5000,
+                170
+              ],
+              "expected": 100,
+              "actual": 100,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": false,
+          "checks": [
+            {
+              "check": "Ordinary partial refund",
+              "inputs": [
+                1000,
+                2400,
+                0
+              ],
+              "expected": 1000,
+              "actual": 1000,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Request above unrefunded balance",
+              "inputs": [
+                3000,
+                4000,
+                2000
+              ],
+              "expected": 2000,
+              "actual": 3000,
+              "error": null,
+              "passed": false
+            },
+            {
+              "check": "Negative request",
+              "inputs": [
+                -1,
+                4000,
+                1000
+              ],
+              "expected": 0,
+              "actual": 0,
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "Second refund exactly uses balance",
+            "inputs": [
+              321,
+              1000,
+              679
+            ],
+            "expected": 321,
+            "actual": 321,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Additional refund after full refund",
+            "inputs": [
+              7,
+              100,
+              100
+            ],
+            "expected": 0,
+            "actual": 7,
+            "error": null,
+            "passed": false
+          },
+          {
+            "check": "Reversal sign in refund request",
+            "inputs": [
+              -12,
+              100,
+              30
+            ],
+            "expected": 0,
+            "actual": 0,
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "partial-refund/negative-allowed",
+      "rule": "partial-refund",
+      "requirement": "Cap a refund at the unrefunded amount and treat a negative request as zero. Assume valid prior totals in minor units.",
+      "candidate": "negative-allowed",
+      "description": "Returns a negative refund",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Ordinary partial refund",
+              "inputs": [
+                1000,
+                2400,
+                0
+              ],
+              "expected": 1000,
+              "actual": 1000,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Ordinary partial refund",
+              "inputs": [
+                1000,
+                2400,
+                0
+              ],
+              "expected": 1000,
+              "actual": 1000,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Full refund of untouched payment",
+              "inputs": [
+                1700,
+                1700,
+                0
+              ],
+              "expected": 1700,
+              "actual": 1700,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Small refund after prior activity",
+              "inputs": [
+                100,
+                5000,
+                170
+              ],
+              "expected": 100,
+              "actual": 100,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": false,
+          "checks": [
+            {
+              "check": "Ordinary partial refund",
+              "inputs": [
+                1000,
+                2400,
+                0
+              ],
+              "expected": 1000,
+              "actual": 1000,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Request above unrefunded balance",
+              "inputs": [
+                3000,
+                4000,
+                2000
+              ],
+              "expected": 2000,
+              "actual": 2000,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Negative request",
+              "inputs": [
+                -1,
+                4000,
+                1000
+              ],
+              "expected": 0,
+              "actual": -1,
+              "error": null,
+              "passed": false
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "Second refund exactly uses balance",
+            "inputs": [
+              321,
+              1000,
+              679
+            ],
+            "expected": 321,
+            "actual": 321,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Additional refund after full refund",
+            "inputs": [
+              7,
+              100,
+              100
+            ],
+            "expected": 0,
+            "actual": 0,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Reversal sign in refund request",
+            "inputs": [
+              -12,
+              100,
+              30
+            ],
+            "expected": 0,
+            "actual": -12,
+            "error": null,
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "partial-refund/one-cent-short",
+      "rule": "partial-refund",
+      "requirement": "Cap a refund at the unrefunded amount and treat a negative request as zero. Assume valid prior totals in minor units.",
+      "candidate": "one-cent-short",
+      "description": "Withholds a minor unit even when the full amount is refundable",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Ordinary partial refund",
+              "inputs": [
+                1000,
+                2400,
+                0
+              ],
+              "expected": 1000,
+              "actual": 1000,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": false,
+          "checks": [
+            {
+              "check": "Ordinary partial refund",
+              "inputs": [
+                1000,
+                2400,
+                0
+              ],
+              "expected": 1000,
+              "actual": 1000,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Full refund of untouched payment",
+              "inputs": [
+                1700,
+                1700,
+                0
+              ],
+              "expected": 1700,
+              "actual": 1699,
+              "error": null,
+              "passed": false
+            },
+            {
+              "check": "Small refund after prior activity",
+              "inputs": [
+                100,
+                5000,
+                170
+              ],
+              "expected": 100,
+              "actual": 100,
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Ordinary partial refund",
+              "inputs": [
+                1000,
+                2400,
+                0
+              ],
+              "expected": 1000,
+              "actual": 1000,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Request above unrefunded balance",
+              "inputs": [
+                3000,
+                4000,
+                2000
+              ],
+              "expected": 2000,
+              "actual": 2000,
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Negative request",
+              "inputs": [
+                -1,
+                4000,
+                1000
+              ],
+              "expected": 0,
+              "actual": 0,
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "Second refund exactly uses balance",
+            "inputs": [
+              321,
+              1000,
+              679
+            ],
+            "expected": 321,
+            "actual": 320,
+            "error": null,
+            "passed": false
+          },
+          {
+            "check": "Additional refund after full refund",
+            "inputs": [
+              7,
+              100,
+              100
+            ],
+            "expected": 0,
+            "actual": 0,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Reversal sign in refund request",
+            "inputs": [
+              -12,
+              100,
+              30
+            ],
+            "expected": 0,
+            "actual": 0,
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "settlement-day/reference",
+      "rule": "settlement-day",
+      "requirement": "Return the first weekday after the trade date that is absent from the supplied holiday calendar.",
+      "candidate": "reference",
+      "description": "Skips weekends and all listed holidays",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Friday with no Monday holiday",
+              "inputs": [
+                "2025-01-10",
+                []
+              ],
+              "expected": "2025-01-13",
+              "actual": "2025-01-13",
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Friday with no Monday holiday",
+              "inputs": [
+                "2025-01-10",
+                []
+              ],
+              "expected": "2025-01-13",
+              "actual": "2025-01-13",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Ordinary midweek settlement",
+              "inputs": [
+                "2025-01-14",
+                []
+              ],
+              "expected": "2025-01-15",
+              "actual": "2025-01-15",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Holiday after the settlement day",
+              "inputs": [
+                "2025-01-15",
+                [
+                  "2025-01-17"
+                ]
+              ],
+              "expected": "2025-01-16",
+              "actual": "2025-01-16",
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Friday with no Monday holiday",
+              "inputs": [
+                "2025-01-10",
+                []
+              ],
+              "expected": "2025-01-13",
+              "actual": "2025-01-13",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Holiday immediately after trading",
+              "inputs": [
+                "2025-01-15",
+                [
+                  "2025-01-16"
+                ]
+              ],
+              "expected": "2025-01-17",
+              "actual": "2025-01-17",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Monday closure follows weekend",
+              "inputs": [
+                "2025-01-17",
+                [
+                  "2025-01-20"
+                ]
+              ],
+              "expected": "2025-01-21",
+              "actual": "2025-01-21",
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": false,
+        "checks": [
+          {
+            "check": "Consecutive weekday closures",
+            "inputs": [
+              "2025-12-23",
+              [
+                "2025-12-24",
+                "2025-12-25"
+              ]
+            ],
+            "expected": "2025-12-26",
+            "actual": "2025-12-26",
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "First open weekday after Friday trade",
+            "inputs": [
+              "2025-02-07",
+              []
+            ],
+            "expected": "2025-02-10",
+            "actual": "2025-02-10",
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "settlement-day/no-weekend",
+      "rule": "settlement-day",
+      "requirement": "Return the first weekday after the trade date that is absent from the supplied holiday calendar.",
+      "candidate": "no-weekend",
+      "description": "Only advances by one calendar day",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": false,
+          "checks": [
+            {
+              "check": "Friday with no Monday holiday",
+              "inputs": [
+                "2025-01-10",
+                []
+              ],
+              "expected": "2025-01-13",
+              "actual": "2025-01-11",
+              "error": null,
+              "passed": false
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": false,
+          "checks": [
+            {
+              "check": "Friday with no Monday holiday",
+              "inputs": [
+                "2025-01-10",
+                []
+              ],
+              "expected": "2025-01-13",
+              "actual": "2025-01-11",
+              "error": null,
+              "passed": false
+            },
+            {
+              "check": "Ordinary midweek settlement",
+              "inputs": [
+                "2025-01-14",
+                []
+              ],
+              "expected": "2025-01-15",
+              "actual": "2025-01-15",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Holiday after the settlement day",
+              "inputs": [
+                "2025-01-15",
+                [
+                  "2025-01-17"
+                ]
+              ],
+              "expected": "2025-01-16",
+              "actual": "2025-01-16",
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": false,
+          "checks": [
+            {
+              "check": "Friday with no Monday holiday",
+              "inputs": [
+                "2025-01-10",
+                []
+              ],
+              "expected": "2025-01-13",
+              "actual": "2025-01-11",
+              "error": null,
+              "passed": false
+            },
+            {
+              "check": "Holiday immediately after trading",
+              "inputs": [
+                "2025-01-15",
+                [
+                  "2025-01-16"
+                ]
+              ],
+              "expected": "2025-01-17",
+              "actual": "2025-01-16",
+              "error": null,
+              "passed": false
+            },
+            {
+              "check": "Monday closure follows weekend",
+              "inputs": [
+                "2025-01-17",
+                [
+                  "2025-01-20"
+                ]
+              ],
+              "expected": "2025-01-21",
+              "actual": "2025-01-18",
+              "error": null,
+              "passed": false
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "Consecutive weekday closures",
+            "inputs": [
+              "2025-12-23",
+              [
+                "2025-12-24",
+                "2025-12-25"
+              ]
+            ],
+            "expected": "2025-12-26",
+            "actual": "2025-12-24",
+            "error": null,
+            "passed": false
+          },
+          {
+            "check": "First open weekday after Friday trade",
+            "inputs": [
+              "2025-02-07",
+              []
+            ],
+            "expected": "2025-02-10",
+            "actual": "2025-02-08",
+            "error": null,
+            "passed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "settlement-day/holiday-ignored",
+      "rule": "settlement-day",
+      "requirement": "Return the first weekday after the trade date that is absent from the supplied holiday calendar.",
+      "candidate": "holiday-ignored",
+      "description": "Skips weekends but ignores holidays",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Friday with no Monday holiday",
+              "inputs": [
+                "2025-01-10",
+                []
+              ],
+              "expected": "2025-01-13",
+              "actual": "2025-01-13",
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Friday with no Monday holiday",
+              "inputs": [
+                "2025-01-10",
+                []
+              ],
+              "expected": "2025-01-13",
+              "actual": "2025-01-13",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Ordinary midweek settlement",
+              "inputs": [
+                "2025-01-14",
+                []
+              ],
+              "expected": "2025-01-15",
+              "actual": "2025-01-15",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Holiday after the settlement day",
+              "inputs": [
+                "2025-01-15",
+                [
+                  "2025-01-17"
+                ]
+              ],
+              "expected": "2025-01-16",
+              "actual": "2025-01-16",
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": false,
+          "checks": [
+            {
+              "check": "Friday with no Monday holiday",
+              "inputs": [
+                "2025-01-10",
+                []
+              ],
+              "expected": "2025-01-13",
+              "actual": "2025-01-13",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Holiday immediately after trading",
+              "inputs": [
+                "2025-01-15",
+                [
+                  "2025-01-16"
+                ]
+              ],
+              "expected": "2025-01-17",
+              "actual": "2025-01-16",
+              "error": null,
+              "passed": false
+            },
+            {
+              "check": "Monday closure follows weekend",
+              "inputs": [
+                "2025-01-17",
+                [
+                  "2025-01-20"
+                ]
+              ],
+              "expected": "2025-01-21",
+              "actual": "2025-01-20",
+              "error": null,
+              "passed": false
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "Consecutive weekday closures",
+            "inputs": [
+              "2025-12-23",
+              [
+                "2025-12-24",
+                "2025-12-25"
+              ]
+            ],
+            "expected": "2025-12-26",
+            "actual": "2025-12-24",
+            "error": null,
+            "passed": false
+          },
+          {
+            "check": "First open weekday after Friday trade",
+            "inputs": [
+              "2025-02-07",
+              []
+            ],
+            "expected": "2025-02-10",
+            "actual": "2025-02-10",
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "settlement-day/single-holiday",
+      "rule": "settlement-day",
+      "requirement": "Return the first weekday after the trade date that is absent from the supplied holiday calendar.",
+      "candidate": "single-holiday",
+      "description": "Skips only the first listed holiday",
+      "workflows": {
+        "smoke": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Friday with no Monday holiday",
+              "inputs": [
+                "2025-01-10",
+                []
+              ],
+              "expected": "2025-01-13",
+              "actual": "2025-01-13",
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "routine": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Friday with no Monday holiday",
+              "inputs": [
+                "2025-01-10",
+                []
+              ],
+              "expected": "2025-01-13",
+              "actual": "2025-01-13",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Ordinary midweek settlement",
+              "inputs": [
+                "2025-01-14",
+                []
+              ],
+              "expected": "2025-01-15",
+              "actual": "2025-01-15",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Holiday after the settlement day",
+              "inputs": [
+                "2025-01-15",
+                [
+                  "2025-01-17"
+                ]
+              ],
+              "expected": "2025-01-16",
+              "actual": "2025-01-16",
+              "error": null,
+              "passed": true
+            }
+          ]
+        },
+        "focused": {
+          "eligible_for_review": true,
+          "checks": [
+            {
+              "check": "Friday with no Monday holiday",
+              "inputs": [
+                "2025-01-10",
+                []
+              ],
+              "expected": "2025-01-13",
+              "actual": "2025-01-13",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Holiday immediately after trading",
+              "inputs": [
+                "2025-01-15",
+                [
+                  "2025-01-16"
+                ]
+              ],
+              "expected": "2025-01-17",
+              "actual": "2025-01-17",
+              "error": null,
+              "passed": true
+            },
+            {
+              "check": "Monday closure follows weekend",
+              "inputs": [
+                "2025-01-17",
+                [
+                  "2025-01-20"
+                ]
+              ],
+              "expected": "2025-01-21",
+              "actual": "2025-01-21",
+              "error": null,
+              "passed": true
+            }
+          ]
+        }
+      },
+      "audit": {
+        "defective": true,
+        "checks": [
+          {
+            "check": "Consecutive weekday closures",
+            "inputs": [
+              "2025-12-23",
+              [
+                "2025-12-24",
+                "2025-12-25"
+              ]
+            ],
+            "expected": "2025-12-26",
+            "actual": "2025-12-25",
+            "error": null,
+            "passed": false
+          },
+          {
+            "check": "First open weekday after Friday trade",
+            "inputs": [
+              "2025-02-07",
+              []
+            ],
+            "expected": "2025-02-10",
+            "actual": "2025-02-10",
+            "error": null,
+            "passed": true
+          }
+        ]
+      }
+    }
+  ]
+}

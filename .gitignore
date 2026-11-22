@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.env
+.env.*
+*.sqlite3
+*.sqlite3-*
+*.json.lock
+/payment-ci.json
+/review.json
+/live-review.json
+/live-batch.json

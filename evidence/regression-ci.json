@@ -1,0 +1,239 @@
+{
+  "revision": null,
+  "decision": "hold",
+  "review": {
+    "id": "payment-ledger/global-id-regression",
+    "rule": "payment-ledger",
+    "requirement": "Book each (account ID, event ID) once and keep the first amount on replay. The same event ID in two accounts must produce two bookings. Amounts are positive integer minor units. The source excerpt is the lookup inside the SQLite write transaction, and probes run the whole booking path.",
+    "candidate": "global-id-regression",
+    "description": "Known faulty ledger lookup for a demo",
+    "workflows": {
+      "smoke": {
+        "eligible_for_review": true,
+        "checks": [
+          {
+            "check": "Distinct payments for one account",
+            "inputs": [
+              [
+                [
+                  "one",
+                  "p1",
+                  101
+                ],
+                [
+                  "one",
+                  "p2",
+                  202
+                ]
+              ]
+            ],
+            "expected": 303,
+            "actual": 303,
+            "error": null,
+            "passed": true
+          }
+        ]
+      },
+      "routine": {
+        "eligible_for_review": true,
+        "checks": [
+          {
+            "check": "Distinct payments for one account",
+            "inputs": [
+              [
+                [
+                  "one",
+                  "p1",
+                  101
+                ],
+                [
+                  "one",
+                  "p2",
+                  202
+                ]
+              ]
+            ],
+            "expected": 303,
+            "actual": 303,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Empty ledger",
+            "inputs": [
+              []
+            ],
+            "expected": 0,
+            "actual": 0,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Two accounts with distinct IDs",
+            "inputs": [
+              [
+                [
+                  "one",
+                  "p3",
+                  310
+                ],
+                [
+                  "two",
+                  "p4",
+                  423
+                ]
+              ]
+            ],
+            "expected": 733,
+            "actual": 733,
+            "error": null,
+            "passed": true
+          }
+        ]
+      },
+      "focused": {
+        "eligible_for_review": false,
+        "checks": [
+          {
+            "check": "Distinct payments for one account",
+            "inputs": [
+              [
+                [
+                  "one",
+                  "p1",
+                  101
+                ],
+                [
+                  "one",
+                  "p2",
+                  202
+                ]
+              ]
+            ],
+            "expected": 303,
+            "actual": 303,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Replay preserves original booking",
+            "inputs": [
+              [
+                [
+                  "one",
+                  "p5",
+                  421
+                ],
+                [
+                  "one",
+                  "p5",
+                  499
+                ]
+              ]
+            ],
+            "expected": 421,
+            "actual": 421,
+            "error": null,
+            "passed": true
+          },
+          {
+            "check": "Same event ID may appear in two accounts",
+            "inputs": [
+              [
+                [
+                  "one",
+                  "p6",
+                  155
+                ],
+                [
+                  "two",
+                  "p6",
+                  268
+                ]
+              ]
+            ],
+            "expected": 423,
+            "actual": 155,
+            "error": null,
+            "passed": false
+          }
+        ]
+      }
+    },
+    "audit": {
+      "defective": true,
+      "checks": [
+        {
+          "check": "Reused ID plus a duplicate in one account",
+          "inputs": [
+            [
+              [
+                "a",
+                "p7",
+                530
+              ],
+              [
+                "b",
+                "p7",
+                640
+              ],
+              [
+                "a",
+                "p7",
+                999
+              ]
+            ]
+          ],
+          "expected": 1170,
+          "actual": 530,
+          "error": null,
+          "passed": false
+        },
+        {
+          "check": "Two distinct events with equal amounts",
+          "inputs": [
+            [
+              [
+                "a",
+                "p8",
+                78
+              ],
+              [
+                "a",
+                "p9",
+                78
+              ]
+            ]
+          ],
+          "expected": 156,
+          "actual": 156,
+          "error": null,
+          "passed": true
+        }
+      ]
+    }
+  },
+  "promoted_checks": [
+    {
+      "check": "Allow the same event ID across accounts",
+      "inputs": [
+        [
+          [
+            "account-4",
+            "channel-7",
+            1200
+          ],
+          [
+            "account-9",
+            "channel-7",
+            850
+          ]
+        ]
+      ],
+      "expected": 2050,
+      "actual": 1200,
+      "error": null,
+      "passed": false
+    }
+  ]
+}
