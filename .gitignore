@@ -10,3 +10,4 @@ __pycache__/
 /live-review.json
 /live-batch.json
 /_site/
+/.vercel/

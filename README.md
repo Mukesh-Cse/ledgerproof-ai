@@ -39,6 +39,8 @@ python -m http.server 8000 --bind 127.0.0.1 --directory _site
 
 Open `http://127.0.0.1:8000/`. The build puts the live sandbox, recorded walkthrough and PDF in `_site/`. The [Pages workflow](.github/workflows/recruiter-demo.yml) builds that directory from `main` and deploys it to GitHub Pages. A fork can enable **GitHub Actions** as its Pages source and run the same workflow. The [live sandbox](payment_sandbox.py) and the CLI share the repository’s payment implementation. User-entered payments stay in the browser. Live model evaluations use the separate, opt-in API CLI.
 
+For Vercel, import the repository with the repository root as the root directory and `main` as the production branch. [The Vercel configuration](vercel.json) runs the same build and publishes `_site/`. The recruiter demo uses static assets and browser-side SQLite, so the Vercel project requires no environment variables.
+
 ## See the evidence become a regression test
 
 The [held review](evidence/ledger-agent-hold.json) and [current ledger review](evidence/ledger-agent-ready.json) execute the same payment path in disposable SQLite databases. The [permanent suite](payment-regressions.json) retains the accepted probe’s inputs, expected amount and source-trace fingerprint. The command below is idempotent. It reports that the committed inputs are already registered.
